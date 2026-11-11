@@ -1,0 +1,377 @@
+/* The look of the run comparison viewer. See index.html for how the files fit together. */
+
+:root {
+    /* The same palette and sizes as the drawer of pciSeq Viewer (its styles.css). */
+    --drawer-bg: #111111;
+    --drawer-surface: #1b1b1b;
+    --drawer-border: #2a2a2a;
+    --drawer-text: #e5e5e5;
+    --drawer-muted: #9aa0a6;
+    --drawer-accent: #22c55e;
+    --drawer-accent-weak: rgba(34, 197, 94, 0.08);
+    --drawer-accent-selected: rgba(34, 197, 94, 0.16);
+    --drawer-width: 300px;
+    --rail-width: 28px;
+    --app-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    /* How long the drawer takes to open or hide. */
+    --drawer-duration: 220ms;
+    /* How long one picture takes to fade into the next. */
+    --fade-duration: 450ms;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: #000000;
+    color: var(--drawer-text);
+    font-family: var(--app-font);
+}
+
+
+/* ---------------------------------------------------------------- the drawer */
+
+/* The drawer slides left until only its rail is left on screen. */
+.drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    width: var(--drawer-width);
+    height: 100vh;
+    background: var(--drawer-surface);
+    border-right: 1px solid var(--drawer-border);
+    transition: transform var(--drawer-duration) ease;
+}
+.drawer.collapsed {
+    transform: translateX(calc(-1 * (var(--drawer-width) - var(--rail-width))));
+}
+
+/* The rail: a strip that is always on screen and toggles the drawer. It sits
+   on the left edge of an open drawer and on the right edge of a hidden one,
+   which is the part of the drawer still in view. */
+.drawer-rail {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: var(--rail-width);
+    height: 100vh;
+    padding-top: 14px;
+    background: var(--drawer-surface);
+    border-right: 1px solid var(--drawer-border);
+    cursor: pointer;
+    outline: none;
+}
+.drawer.collapsed .drawer-rail { left: auto; right: 0; border-right: none; }
+.drawer-rail:hover { background: #1f1f1f; box-shadow: inset 0 0 0 1px var(--drawer-accent-weak); }
+.drawer-rail:focus-visible { box-shadow: inset 0 0 0 1px var(--drawer-accent); }
+
+.rail-icon { display: flex; color: #e8e8f0; }
+.drawer-rail:hover .rail-icon { color: #ffffff; }
+/* The chevron points out of a hidden drawer and into an open one. */
+.drawer:not(.collapsed) .rail-icon .chevron {
+    transform: scaleX(-1);
+    transform-origin: center;
+    transform-box: fill-box;
+}
+
+.drawer-content {
+    flex: 1;
+    min-height: 0;
+    margin-left: var(--rail-width);
+    padding: 16px 16px 16px 0;
+    overflow-y: auto;
+}
+
+.drawer-section {
+    padding: 12px;
+    background: var(--drawer-bg);
+    border: 1px solid var(--drawer-border);
+    border-radius: 6px;
+}
+
+.drawer-title {
+    margin: 0 0 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--drawer-accent);
+}
+
+.class-filter {
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 8px 10px;
+    font: inherit;
+    font-size: 12px;
+    color: var(--drawer-text);
+    background: var(--drawer-surface);
+    border: 1px solid var(--drawer-border);
+    border-radius: 6px;
+}
+.class-filter::placeholder { color: var(--drawer-muted); }
+.class-filter:focus { outline: none; border-color: var(--drawer-accent); }
+
+/* The class list scrolls inside a fixed height; the handle under it changes
+   that height (drawer.js). */
+.class-list {
+    max-height: 480px;
+    margin: 0;
+    padding: 0 5px 0 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    list-style: none;
+}
+.class-list::-webkit-scrollbar { width: 8px; }
+.class-list::-webkit-scrollbar-track { background: var(--drawer-bg); border-radius: 4px; }
+.class-list::-webkit-scrollbar-thumb { background: var(--drawer-accent); border-radius: 4px; }
+.class-list::-webkit-scrollbar-thumb:hover { background: #00cc00; }
+/* Firefox has no ::-webkit-scrollbar; these two properties are its way. Chrome
+   would let them override the rules above, so they are for Firefox only. */
+@supports (-moz-appearance: none) {
+    .class-list { scrollbar-width: thin; scrollbar-color: var(--drawer-accent) var(--drawer-bg); }
+}
+
+.list-resize-handle {
+    position: relative;
+    width: 100%;
+    height: 10px;
+    margin-top: 6px;
+    background: var(--drawer-border);
+    border-radius: 6px;
+    cursor: ns-resize;
+    transition: background 0.2s;
+}
+.list-resize-handle:hover { background: var(--drawer-accent); }
+.list-resize-handle::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 24px;
+    height: 4px;
+    background: #0b0b0b;
+    border-radius: 2px;
+    transform: translate(-50%, -50%);
+}
+
+.class-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 4px;
+    padding: 6px 8px;
+    font: inherit;
+    text-align: left;
+    color: inherit;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s ease, opacity 0.3s ease, border-color 0.15s ease;
+}
+.class-row:hover { background: var(--drawer-accent-weak); }
+.class-row:focus-visible { outline: none; border-color: var(--drawer-accent); }
+.class-row.selected {
+    background: var(--drawer-accent-selected);
+    border-color: rgba(34, 197, 94, 0.45);
+}
+/* A class with no cells in the run picked. */
+.class-row.empty { opacity: 0.4; }
+
+.class-colour {
+    flex: 0 0 auto;
+    width: 14px;
+    height: 14px;
+    border: 1px solid var(--drawer-border);
+    border-radius: 3px;
+}
+.class-colour.all-classes {
+    background: conic-gradient(#cb3434, #cbba43, #27a644, #65cbed, #be93e3, #cb3434);
+}
+
+.class-name {
+    flex: 1;
+    overflow: hidden;
+    font-size: 12px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.class-count {
+    flex: 0 0 auto;
+    min-width: 50px;
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    color: var(--drawer-muted);
+}
+.class-row:hover .class-count,
+.class-row.selected .class-count { color: var(--drawer-text); }
+
+.all-classes-row {
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--drawer-border);
+}
+
+.no-match {
+    padding: 12px 8px;
+    font-size: 12px;
+    color: var(--drawer-muted);
+}
+
+
+/* ---------------------------------------------------------------- the picture */
+
+/* The stage fills the whole window and the drawer lies over it, as in pciSeq
+   Viewer. Opening or hiding the drawer therefore never moves or resizes the
+   picture. */
+.stage {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    background: #000000;
+}
+
+/* Zooming and dragging move the viewport; the pictures inside follow. Its
+   width and height are set by zoomPan.js: the picture's shape, as large as
+   fits the stage. */
+.viewport {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: 0 0;
+    cursor: grab;
+    /* Smooths the steps of a mouse wheel. Switched off while dragging, where
+       the picture has to stay under the pointer. */
+    transition: transform 140ms ease-out;
+}
+.viewport.dragging { cursor: grabbing; transition: none; }
+
+/* Every picture is a layer that fills the viewport. A new one is put on top
+   and fades in over the one below. */
+.layer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity var(--fade-duration) ease-in-out;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+.layer.shown { opacity: 1; }
+img.layer { object-fit: contain; }
+
+.layer.message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    font-size: 14px;
+    text-align: center;
+    color: var(--drawer-muted);
+    background: #000000;
+}
+
+
+/* ---------------------------------------------------------------- the controls over the picture */
+
+.run-picker,
+.caption,
+.zoom-buttons {
+    position: absolute;
+    z-index: 2;
+    background: rgba(17, 17, 17, 0.88);
+    border: 1px solid var(--drawer-border);
+}
+
+/* Plain radio buttons, one under the other, the same as the background
+   channel switcher of pciSeq Viewer. */
+.run-picker {
+    top: 14px;
+    right: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
+    padding: 10px 12px;
+    font-size: 12px;
+    border-radius: 8px;
+}
+.run-picker legend {
+    float: left;
+    padding: 0;
+    color: var(--drawer-muted);
+}
+.run-options {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.run-option {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+.run-option input {
+    margin: 0;
+    cursor: pointer;
+}
+
+/* The caption is the one thing that moves with the drawer, so the drawer never
+   hides it (pciSeq Viewer does the same with its scale bar). */
+.caption {
+    left: calc(var(--drawer-width) + 16px);
+    bottom: 14px;
+    transition: left var(--drawer-duration) ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: calc(100% - var(--drawer-width) - 180px);
+    padding: 7px 12px;
+    font-size: 12px;
+    border-radius: 8px;
+}
+body.drawer-collapsed .caption {
+    left: calc(var(--rail-width) + 16px);
+    max-width: calc(100% - var(--rail-width) - 180px);
+}
+.caption-detail { color: var(--drawer-muted); font-variant-numeric: tabular-nums; }
+
+.zoom-buttons {
+    right: 16px;
+    bottom: 14px;
+    display: flex;
+    overflow: hidden;
+    border-radius: 8px;
+}
+.zoom-buttons button {
+    min-width: 34px;
+    padding: 6px 10px;
+    font: inherit;
+    font-size: 13px;
+    color: var(--drawer-muted);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+.zoom-buttons button + button { border-left: 1px solid var(--drawer-border); }
+.zoom-buttons button:hover { color: var(--drawer-text); background: var(--drawer-accent-weak); }
+.zoom-buttons button:focus-visible { outline: none; color: var(--drawer-accent); }
+
+
+@media (prefers-reduced-motion: reduce) {
+    :root { --fade-duration: 0ms; --drawer-duration: 0ms; }
+    .viewport { transition: none; }
+}
