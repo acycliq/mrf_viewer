@@ -316,6 +316,11 @@ img.layer { object-fit: contain; }
     width: 62px;
     color: var(--drawer-muted);
 }
+.run-control-group {
+    margin-left: 6px;
+    color: var(--drawer-muted);
+    white-space: nowrap;
+}
 .run-control-buttons {
     display: flex;
     border: 1px solid var(--drawer-border);
