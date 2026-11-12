@@ -43,11 +43,14 @@ def pciseq_cell_data(beta):
 # only cells whose Corr in MapMyCells' cellData is above X (0 drops exactly the
 # tool's default calls, 0.4 is the cut Allen's notebooks use), n<N> = only cells
 # with at least N reads.
-CONTROLS = ['Method', 'mrf_beta', 'Seed', 'Cells']
+CONTROLS = ['Method', 'mrf_beta', 'Cells']
 MRF_BETAS = ['0.0', '0.5', '1.0', '1.5']
 # seed shown -> (run folder, id suffix); website is the seed and worker count the
 # MapMyCells website uses (11235 and 32), on the same 38 classes
-MAPMYCELLS_SEEDS = {'42': ('hard', ''), 'website': ('hard_seed11235_p32', '_seed11235')}
+MAPMYCELLS_SEEDS = {'website': ('hard_seed11235_p32', '_seed11235')}
+# Seed 42 ('42': ('hard', '')) was on the page until 12 Nov 2026 with a Seed row of buttons;
+# taken off to keep it simple, the seed barely changes the totals and the agreement with pciSeq
+# (aang_mapmycells/sweep.py).
 # cell filter -> the button's text
 CELL_FILTERS = {None: 'all', 'n1': 'N ≥ 1', 'n3': 'N ≥ 3',
                 'n5': 'N ≥ 5', 'n7': 'N ≥ 7', 'n10': 'N ≥ 10', 'corr0': 'corr > 0', 'corr0.4': 'corr > 0.4'}
@@ -59,9 +62,10 @@ def pciseq_run(beta):
             'cellData': pciseq_cell_data(beta), 'pick': 'most_likely'}
 
 
-# markers -> the Method button. allen = Allen's marker list, panel = every panel gene at every
-# step of the tree (aang_mapmycells/make_panel_markers.py), its runs are in hard_panel* folders
-MAPMYCELLS_MARKERS = {'allen': 'MapMyCells, Allen markers', 'panel': 'MapMyCells, panel markers'}
+# markers -> the Method button. allen = Allen's marker list. The runs with every panel gene as a
+# marker (aang_mapmycells/make_panel_markers.py, 'panel', hard_panel* folders) were on the page
+# until 12 Nov 2026 and were taken off to keep it simple; add 'panel' here to bring them back.
+MAPMYCELLS_MARKERS = {'allen': 'MapMyCells'}
 
 
 def mapmycells_run(markers, seed, cell_filter):
@@ -74,7 +78,7 @@ def mapmycells_run(markers, seed, cell_filter):
     return {'id': 'mapmycells_yao38_hard' + suffix + ('_' + cell_filter if cell_filter else ''),
             'label': method + ', yao38 hard, ' + ('seed 42' if seed == '42' else 'website seed') +
                      ('' if cell_filter is None else ', ' + cells),
-            'choices': {'Method': method, 'Seed': seed, 'Cells': cells},
+            'choices': {'Method': method, 'Cells': cells},
             'cellData': mapmycells_cell_data(folder), 'pick': 'first', 'cell_filter': cell_filter}
 
 
