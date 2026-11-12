@@ -20,7 +20,7 @@ import numpy as np
 from PIL import Image
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-PCISEQ_RUNS = os.path.dirname(HERE)               # ~/pciseq_runs/aang
+PCISEQ_RUNS = os.path.expanduser('~/pciseq_runs/aang')
 MAPMYCELLS_RUNS = os.path.expanduser('~/dev/python/aang_mapmycells/runs')
 
 
@@ -38,8 +38,11 @@ RUNS = [
     {'id': 'mrf_beta_0.5', 'label': 'pciSeq, mrf_beta 0.5', 'cellData': pciseq_cell_data('0.5'), 'pick': 'most_likely'},
     {'id': 'mrf_beta_1.0', 'label': 'pciSeq, mrf_beta 1.0', 'cellData': pciseq_cell_data('1.0'), 'pick': 'most_likely'},
     {'id': 'mrf_beta_1.5', 'label': 'pciSeq, mrf_beta 1.5', 'cellData': pciseq_cell_data('1.5'), 'pick': 'most_likely'},
-    {'id': 'mapmycells_yao38_hard', 'label': 'MapMyCells, yao38 hard',
+    {'id': 'mapmycells_yao38_hard', 'label': 'MapMyCells, yao38 hard (seed 42)',
      'cellData': os.path.join(MAPMYCELLS_RUNS, 'yao38', 'hard', 'cellData.tsv'), 'pick': 'first'},
+    # the seed and worker count the MapMyCells website uses (11235 and 32), on the same 38 classes
+    {'id': 'mapmycells_yao38_hard_seed11235', 'label': 'MapMyCells, yao38 hard (website seed)',
+     'cellData': os.path.join(MAPMYCELLS_RUNS, 'yao38', 'hard_seed11235_p32', 'cellData.tsv'), 'pick': 'first'},
 ]
 RUN_IDS = [run['id'] for run in RUNS]
 ALL_CLASSES_FILE = 'All_classes.png'
@@ -99,8 +102,10 @@ def colour_of_picture(path, reference_path):
 
 def main():
     counts = {run['id']: cells_per_class(run) for run in RUNS}
+    # Biggest class first in the first run; classes with the same count go by
+    # name, so the order is the same every time the script runs.
     class_names = sorted(set().union(*counts.values()),
-                         key=lambda name: -counts[RUN_IDS[0]][name])
+                         key=lambda name: (-counts[RUN_IDS[0]][name], name))
 
     def picture_path(run_id, file_name):
         return os.path.join(HERE, 'images', run_id, file_name)
