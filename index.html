@@ -9,7 +9,7 @@
   four mrf_beta values, and MapMyCells.
 
   It shows one picture at a time: the cells of one class (or of all classes),
-  from all planes, for the run picked at the top right. The pictures were
+  from all planes, for the run picked with the buttons at the top right. The pictures were
   exported from pciSeq Viewer and live in images/<run id>/.
 
   Files:
@@ -61,10 +61,8 @@
     <!-- Everything inside the viewport zooms and moves together. -->
     <div id="viewport" class="viewport"></div>
 
-    <fieldset class="run-picker">
-        <legend>Run</legend>
-        <div id="runOptions" class="run-options"></div>
-    </fieldset>
+    <!-- One row of buttons per control, filled by app.js from data.js. -->
+    <div id="runControls" class="run-picker" role="group" aria-label="Run"></div>
 
     <div class="caption">
         <span id="captionColour" class="class-colour"></span>
