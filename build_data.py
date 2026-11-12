@@ -65,7 +65,7 @@ for folder, suffix, seed in (('hard', '', 'seed 42'), ('hard_seed11235_p32', '_s
                  'label': f'MapMyCells, yao38 hard ({seed}), corr > 0',
                  'cellData': mapmycells_cell_data(folder), 'pick': 'first', 'cell_filter': 'calls'})
 RUN_IDS = [run['id'] for run in RUNS]
-ALL_CLASSES_FILE = 'All_classes.png'
+ALL_CLASSES_FILE = 'All_classes.webp'
 # Two class pictures share the same DAPI background, so the pixels where they
 # differ by more than this (summed over red, green and blue) are cells.
 MIN_PIXEL_DIFFERENCE = 60
@@ -75,7 +75,8 @@ FALLBACK_COLOUR = '#000000'
 def picture_name(class_name):
     """The file name the viewer's exporter gives a class (sanitiseFilename)."""
     cleaned = re.sub(r'[^a-zA-Z0-9._-]+', '_', class_name).strip('_')
-    return (cleaned or 'unknown') + '.png'
+    # the viewer exports .png, to_webp.py turns them into .webp
+    return (cleaned or 'unknown') + '.webp'
 
 
 def class_of_cell(row, pick):

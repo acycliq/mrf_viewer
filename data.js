@@ -94,7 +94,7 @@ window.BETA_VIEWER_DATA = {
   "width": 1054,
   "height": 1400
  },
- "allClassesFile": "All_classes.png",
+ "allClassesFile": "All_classes.webp",
  "totalCells": {
   "mrf_beta_0.0": 37310,
   "mrf_beta_0.5": 37310,
@@ -122,7 +122,7 @@ window.BETA_VIEWER_DATA = {
  "classes": [
   {
    "name": "Zero",
-   "file": "Zero.png",
+   "file": "Zero.webp",
    "colour": "#010101",
    "cells": {
     "mrf_beta_0.0": 12120,
@@ -175,7 +175,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "319 Astro-TE NN",
-   "file": "319_Astro-TE_NN.png",
+   "file": "319_Astro-TE_NN.webp",
    "colour": "#be93e3",
    "cells": {
     "mrf_beta_0.0": 2890,
@@ -228,7 +228,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "327 Oligo NN",
-   "file": "327_Oligo_NN.png",
+   "file": "327_Oligo_NN.webp",
    "colour": "#e56901",
    "cells": {
     "mrf_beta_0.0": 2389,
@@ -281,7 +281,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "037 DG Glut",
-   "file": "037_DG_Glut.png",
+   "file": "037_DG_Glut.webp",
    "colour": "#cb3434",
    "cells": {
     "mrf_beta_0.0": 2327,
@@ -334,7 +334,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "007 L2/3 IT CTX Glut",
-   "file": "007_L2_3_IT_CTX_Glut.png",
+   "file": "007_L2_3_IT_CTX_Glut.webp",
    "colour": "#cbba43",
    "cells": {
     "mrf_beta_0.0": 2185,
@@ -387,7 +387,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "030 L6 CT CTX Glut",
-   "file": "030_L6_CT_CTX_Glut.png",
+   "file": "030_L6_CT_CTX_Glut.webp",
    "colour": "#65a976",
    "cells": {
     "mrf_beta_0.0": 2034,
@@ -440,7 +440,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "006 L4/5 IT CTX Glut",
-   "file": "006_L4_5_IT_CTX_Glut.png",
+   "file": "006_L4_5_IT_CTX_Glut.webp",
    "colour": "#218732",
    "cells": {
     "mrf_beta_0.0": 1938,
@@ -493,7 +493,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "017 CA3 Glut",
-   "file": "017_CA3_Glut.png",
+   "file": "017_CA3_Glut.webp",
    "colour": "#2aae89",
    "cells": {
     "mrf_beta_0.0": 1267,
@@ -546,7 +546,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "005 L5 IT CTX Glut",
-   "file": "005_L5_IT_CTX_Glut.png",
+   "file": "005_L5_IT_CTX_Glut.webp",
    "colour": "#65cbed",
    "cells": {
     "mrf_beta_0.0": 1210,
@@ -599,7 +599,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "016 CA1-ProS Glut",
-   "file": "016_CA1-ProS_Glut.png",
+   "file": "016_CA1-ProS_Glut.webp",
    "colour": "#27a644",
    "cells": {
     "mrf_beta_0.0": 1015,
@@ -652,7 +652,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "004 L6 IT CTX Glut",
-   "file": "004_L6_IT_CTX_Glut.png",
+   "file": "004_L6_IT_CTX_Glut.webp",
    "colour": "#4376a9",
    "cells": {
     "mrf_beta_0.0": 900,
@@ -705,7 +705,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "022 L5 ET CTX Glut",
-   "file": "022_L5_ET_CTX_Glut.png",
+   "file": "022_L5_ET_CTX_Glut.webp",
    "colour": "#ed6576",
    "cells": {
     "mrf_beta_0.0": 759,
@@ -758,7 +758,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "334 Microglia NN",
-   "file": "334_Microglia_NN.png",
+   "file": "334_Microglia_NN.webp",
    "colour": "#6c4949",
    "cells": {
     "mrf_beta_0.0": 710,
@@ -811,7 +811,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "025 CA2-FC-IG Glut",
-   "file": "025_CA2-FC-IG_Glut.png",
+   "file": "025_CA2-FC-IG_Glut.webp",
    "colour": "#a3c301",
    "cells": {
     "mrf_beta_0.0": 618,
@@ -864,7 +864,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "333 Endo NN",
-   "file": "333_Endo_NN.png",
+   "file": "333_Endo_NN.webp",
    "colour": "#9f6f37",
    "cells": {
     "mrf_beta_0.0": 540,
@@ -917,7 +917,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "326 OPC NN",
-   "file": "326_OPC_NN.png",
+   "file": "326_OPC_NN.webp",
    "colour": "#cb5401",
    "cells": {
     "mrf_beta_0.0": 531,
@@ -970,7 +970,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "052 Pvalb Gaba",
-   "file": "052_Pvalb_Gaba.png",
+   "file": "052_Pvalb_Gaba.webp",
    "colour": "#2e7efe",
    "cells": {
     "mrf_beta_0.0": 445,
@@ -1023,7 +1023,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "031 CT SUB Glut",
-   "file": "031_CT_SUB_Glut.png",
+   "file": "031_CT_SUB_Glut.webp",
    "colour": "#4376a9",
    "cells": {
     "mrf_beta_0.0": 379,
@@ -1076,7 +1076,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "053 Sst Gaba",
-   "file": "053_Sst_Gaba.png",
+   "file": "053_Sst_Gaba.webp",
    "colour": "#899832",
    "cells": {
     "mrf_beta_0.0": 375,
@@ -1129,7 +1129,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "330 VLMC NN",
-   "file": "330_VLMC_NN.png",
+   "file": "330_VLMC_NN.webp",
    "colour": "#d71c5f",
    "cells": {
     "mrf_beta_0.0": 279,
@@ -1182,7 +1182,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "029 L6b CTX Glut",
-   "file": "029_L6b_CTX_Glut.png",
+   "file": "029_L6b_CTX_Glut.webp",
    "colour": "#dc43a9",
    "cells": {
     "mrf_beta_0.0": 270,
@@ -1235,7 +1235,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "032 L5 NP CTX Glut",
-   "file": "032_L5_NP_CTX_Glut.png",
+   "file": "032_L5_NP_CTX_Glut.webp",
    "colour": "#65cbed",
    "cells": {
     "mrf_beta_0.0": 248,
@@ -1288,7 +1288,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "049 Lamp5 Gaba",
-   "file": "049_Lamp5_Gaba.png",
+   "file": "049_Lamp5_Gaba.webp",
    "colour": "#c79afe",
    "cells": {
     "mrf_beta_0.0": 200,
@@ -1341,7 +1341,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "331 Peri NN",
-   "file": "331_Peri_NN.png",
+   "file": "331_Peri_NN.webp",
    "colour": "#a93276",
    "cells": {
     "mrf_beta_0.0": 200,
@@ -1394,7 +1394,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "046 Vip Gaba",
-   "file": "046_Vip_Gaba.png",
+   "file": "046_Vip_Gaba.webp",
    "colour": "#65cbed",
    "cells": {
     "mrf_beta_0.0": 183,
@@ -1447,7 +1447,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "045 OB-STR-CTX Inh IMN",
-   "file": "045_OB-STR-CTX_Inh_IMN.png",
+   "file": "045_OB-STR-CTX_Inh_IMN.webp",
    "colour": "#4376a9",
    "cells": {
     "mrf_beta_0.0": 171,
@@ -1500,7 +1500,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "047 Sncg Gaba",
-   "file": "047_Sncg_Gaba.png",
+   "file": "047_Sncg_Gaba.webp",
    "colour": "#218732",
    "cells": {
     "mrf_beta_0.0": 152,
@@ -1553,7 +1553,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "050 Lamp5 Lhx6 Gaba",
-   "file": "050_Lamp5_Lhx6_Gaba.png",
+   "file": "050_Lamp5_Lhx6_Gaba.webp",
    "colour": "#c79afe",
    "cells": {
     "mrf_beta_0.0": 149,
@@ -1606,7 +1606,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "036 HPF CR Glut",
-   "file": "036_HPF_CR_Glut.png",
+   "file": "036_HPF_CR_Glut.webp",
    "colour": "#a93276",
    "cells": {
     "mrf_beta_0.0": 148,
@@ -1659,7 +1659,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "048 RHP-COA Ndnf Gaba",
-   "file": "048_RHP-COA_Ndnf_Gaba.png",
+   "file": "048_RHP-COA_Ndnf_Gaba.webp",
    "colour": "#cbba43",
    "cells": {
     "mrf_beta_0.0": 144,
@@ -1712,7 +1712,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "038 DG-PIR Ex IMN",
-   "file": "038_DG-PIR_Ex_IMN.png",
+   "file": "038_DG-PIR_Ex_IMN.webp",
    "colour": "#cb3232",
    "cells": {
     "mrf_beta_0.0": 130,
@@ -1765,7 +1765,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "051 Pvalb chandelier Gaba",
-   "file": "051_Pvalb_chandelier_Gaba.png",
+   "file": "051_Pvalb_chandelier_Gaba.webp",
    "colour": "#2e7efe",
    "cells": {
     "mrf_beta_0.0": 104,
@@ -1818,7 +1818,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "329 ABC NN",
-   "file": "329_ABC_NN.png",
+   "file": "329_ABC_NN.webp",
    "colour": "#cbba43",
    "cells": {
     "mrf_beta_0.0": 84,
@@ -1871,7 +1871,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "332 SMC NN",
-   "file": "332_SMC_NN.png",
+   "file": "332_SMC_NN.webp",
    "colour": "#bababa",
    "cells": {
     "mrf_beta_0.0": 70,
@@ -1924,7 +1924,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "335 BAM NN",
-   "file": "335_BAM_NN.png",
+   "file": "335_BAM_NN.webp",
    "colour": "#5498fe",
    "cells": {
     "mrf_beta_0.0": 59,
@@ -1977,7 +1977,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "056 Sst Chodl Gaba",
-   "file": "056_Sst_Chodl_Gaba.png",
+   "file": "056_Sst_Chodl_Gaba.webp",
    "colour": "#899832",
    "cells": {
     "mrf_beta_0.0": 53,
@@ -2030,7 +2030,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "338 Lymphoid NN",
-   "file": "338_Lymphoid_NN.png",
+   "file": "338_Lymphoid_NN.webp",
    "colour": "#dc43a9",
    "cells": {
     "mrf_beta_0.0": 15,
@@ -2083,7 +2083,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "337 DC NN",
-   "file": "337_DC_NN.png",
+   "file": "337_DC_NN.webp",
    "colour": "#fe9854",
    "cells": {
     "mrf_beta_0.0": 13,
@@ -2136,7 +2136,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "336 Monocytes NN",
-   "file": "336_Monocytes_NN.png",
+   "file": "336_Monocytes_NN.webp",
    "colour": "#98dc54",
    "cells": {
     "mrf_beta_0.0": 6,
