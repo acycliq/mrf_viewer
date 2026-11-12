@@ -24,6 +24,10 @@ PCISEQ_RUNS = os.path.expanduser('~/pciseq_runs/aang')
 MAPMYCELLS_RUNS = os.path.expanduser('~/dev/python/aang_mapmycells/runs')
 
 
+def mapmycells_cell_data(folder):
+    return os.path.join(MAPMYCELLS_RUNS, 'yao38', folder, 'cellData.tsv')
+
+
 def pciseq_cell_data(beta):
     return os.path.join(PCISEQ_RUNS, 'mrf_beta_' + beta, 'pciSeq', 'data', 'tsv', 'cellData.tsv')
 
@@ -33,17 +37,33 @@ def pciseq_cell_data(beta):
 # is the cell's class: pciSeq lists them in no set order, so it is the most
 # likely one; MapMyCells puts the tool's own pick first, and its shares are
 # along the path down the tree, so the biggest share is not always the pick.
+# cell_filter leaves cells out, the same filters as aang_mapmycells/export_viewer.py
+# so the counts match the pictures: calls = only cells MapMyCells really called
+# (Default False in its cellData, the subclass is not the tool's default), n<N> =
+# only cells with at least N reads.
 RUNS = [
     {'id': 'mrf_beta_0.0', 'label': 'pciSeq, mrf_beta 0.0', 'cellData': pciseq_cell_data('0.0'), 'pick': 'most_likely'},
     {'id': 'mrf_beta_0.5', 'label': 'pciSeq, mrf_beta 0.5', 'cellData': pciseq_cell_data('0.5'), 'pick': 'most_likely'},
     {'id': 'mrf_beta_1.0', 'label': 'pciSeq, mrf_beta 1.0', 'cellData': pciseq_cell_data('1.0'), 'pick': 'most_likely'},
     {'id': 'mrf_beta_1.5', 'label': 'pciSeq, mrf_beta 1.5', 'cellData': pciseq_cell_data('1.5'), 'pick': 'most_likely'},
     {'id': 'mapmycells_yao38_hard', 'label': 'MapMyCells, yao38 hard (seed 42)',
-     'cellData': os.path.join(MAPMYCELLS_RUNS, 'yao38', 'hard', 'cellData.tsv'), 'pick': 'first'},
+     'cellData': mapmycells_cell_data('hard'), 'pick': 'first'},
     # the seed and worker count the MapMyCells website uses (11235 and 32), on the same 38 classes
     {'id': 'mapmycells_yao38_hard_seed11235', 'label': 'MapMyCells, yao38 hard (website seed)',
-     'cellData': os.path.join(MAPMYCELLS_RUNS, 'yao38', 'hard_seed11235_p32', 'cellData.tsv'), 'pick': 'first'},
+     'cellData': mapmycells_cell_data('hard_seed11235_p32'), 'pick': 'first'},
 ]
+# The N-sweep: only cells with at least N reads (N = 0 is the unfiltered run above)
+for n in (1, 2, 3, 4, 5, 7, 10):
+    cell_filter, label = f'n{n}', f'N >= {n}'
+    for folder, suffix, seed in (('hard', '', 'seed 42'), ('hard_seed11235_p32', '_seed11235', 'website seed')):
+        RUNS.append({'id': f'mapmycells_yao38_hard{suffix}_{cell_filter}',
+                     'label': f'MapMyCells, yao38 hard ({seed}), {label}',
+                     'cellData': mapmycells_cell_data(folder), 'pick': 'first', 'cell_filter': cell_filter})
+# Only the cells MapMyCells really called, both seeds
+for folder, suffix, seed in (('hard', '', 'seed 42'), ('hard_seed11235_p32', '_seed11235', 'website seed')):
+    RUNS.append({'id': f'mapmycells_yao38_hard{suffix}_calls',
+                 'label': f'MapMyCells, yao38 hard ({seed}), corr > 0',
+                 'cellData': mapmycells_cell_data(folder), 'pick': 'first', 'cell_filter': 'calls'})
 RUN_IDS = [run['id'] for run in RUNS]
 ALL_CLASSES_FILE = 'All_classes.png'
 # Two class pictures share the same DAPI background, so the pixels where they
@@ -67,12 +87,23 @@ def class_of_cell(row, pick):
     return names[probabilities.index(max(probabilities))]
 
 
+def keep_cell(row, cell_filter):
+    """Whether a cell stays in the run, by its cell_filter (see RUNS)."""
+    if cell_filter is None:
+        return True
+    if cell_filter == 'calls':
+        return row['Default'] == 'False'
+    return sum(ast.literal_eval(row['CellGeneCount'])) >= int(cell_filter[1:])
+
+
 def cells_per_class(run):
     """How many cells of the run each class has."""
     counts = Counter()
     csv.field_size_limit(sys.maxsize)
     with open(run['cellData'], newline='') as handle:
         for row in csv.DictReader(handle, delimiter='\t'):
+            if not keep_cell(row, run.get('cell_filter')):
+                continue
             counts[class_of_cell(row, run['pick'])] += 1
     return counts
 
