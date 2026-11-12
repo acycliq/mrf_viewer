@@ -32,43 +32,65 @@ def pciseq_cell_data(beta):
     return os.path.join(PCISEQ_RUNS, 'mrf_beta_' + beta, 'pciSeq', 'data', 'tsv', 'cellData.tsv')
 
 
-# The runs, in the order the picker lists them. id is also the folder of the
-# run's pictures, images/<id>/. pick says which class of a cell's ClassName list
-# is the cell's class: pciSeq lists them in no set order, so it is the most
-# likely one; MapMyCells puts the tool's own pick first, and its shares are
-# along the path down the tree, so the biggest share is not always the pick.
-# cell_filter leaves cells out, the same filters as aang_mapmycells/export_viewer.py
-# so the counts match the pictures: calls = only cells MapMyCells really called
-# (Default False in its cellData, the subclass is not the tool's default), n<N> =
-# only cells with at least N reads.
-RUNS = [
-    {'id': 'mrf_beta_0.0', 'label': 'pciSeq, mrf_beta 0.0', 'cellData': pciseq_cell_data('0.0'), 'pick': 'most_likely'},
-    {'id': 'mrf_beta_0.5', 'label': 'pciSeq, mrf_beta 0.5', 'cellData': pciseq_cell_data('0.5'), 'pick': 'most_likely'},
-    {'id': 'mrf_beta_1.0', 'label': 'pciSeq, mrf_beta 1.0', 'cellData': pciseq_cell_data('1.0'), 'pick': 'most_likely'},
-    {'id': 'mrf_beta_1.5', 'label': 'pciSeq, mrf_beta 1.5', 'cellData': pciseq_cell_data('1.5'), 'pick': 'most_likely'},
-    {'id': 'mapmycells_yao38_hard', 'label': 'MapMyCells, yao38 hard (seed 42)',
-     'cellData': mapmycells_cell_data('hard'), 'pick': 'first'},
-    # the seed and worker count the MapMyCells website uses (11235 and 32), on the same 38 classes
-    {'id': 'mapmycells_yao38_hard_seed11235', 'label': 'MapMyCells, yao38 hard (website seed)',
-     'cellData': mapmycells_cell_data('hard_seed11235_p32'), 'pick': 'first'},
-]
-# The N-sweep: only cells with at least N reads (N = 0 is the unfiltered run above)
-for n in (1, 2, 3, 4, 5, 7, 10):
-    cell_filter, label = f'n{n}', f'N >= {n}'
-    for folder, suffix, seed in (('hard', '', 'seed 42'), ('hard_seed11235_p32', '_seed11235', 'website seed')):
-        RUNS.append({'id': f'mapmycells_yao38_hard{suffix}_{cell_filter}',
-                     'label': f'MapMyCells, yao38 hard ({seed}), {label}',
-                     'cellData': mapmycells_cell_data(folder), 'pick': 'first', 'cell_filter': cell_filter})
-# Only the cells MapMyCells really called, both seeds
-for folder, suffix, seed in (('hard', '', 'seed 42'), ('hard_seed11235_p32', '_seed11235', 'website seed')):
-    RUNS.append({'id': f'mapmycells_yao38_hard{suffix}_calls',
-                 'label': f'MapMyCells, yao38 hard ({seed}), corr > 0',
-                 'cellData': mapmycells_cell_data(folder), 'pick': 'first', 'cell_filter': 'calls'})
+# The runs. id is also the folder of the run's pictures, images/<id>/. choices
+# places the run in the picker: one row of buttons per control (CONTROLS), and a
+# row shows only for the method whose runs have that control. pick says which
+# class of a cell's ClassName list is the cell's class: pciSeq lists them in no
+# set order, so it is the most likely one; MapMyCells puts the tool's own pick
+# first, and its shares are along the path down the tree, so the biggest share
+# is not always the pick. cell_filter leaves cells out, the same filters as
+# aang_mapmycells/export_viewer.py so the counts match the pictures: corr<X> =
+# only cells whose Corr in MapMyCells' cellData is above X (0 drops exactly the
+# tool's default calls, 0.4 is the cut Allen's notebooks use), n<N> = only cells
+# with at least N reads.
+CONTROLS = ['Method', 'mrf_beta', 'Seed', 'Cells']
+MRF_BETAS = ['0.0', '0.5', '1.0', '1.5']
+# seed shown -> (run folder, id suffix); website is the seed and worker count the
+# MapMyCells website uses (11235 and 32), on the same 38 classes
+MAPMYCELLS_SEEDS = {'42': ('hard', ''), 'website': ('hard_seed11235_p32', '_seed11235')}
+# cell filter -> the button's text
+CELL_FILTERS = {None: 'all', 'n1': 'N ≥ 1', 'n2': 'N ≥ 2', 'n3': 'N ≥ 3', 'n4': 'N ≥ 4',
+                'n5': 'N ≥ 5', 'n7': 'N ≥ 7', 'n10': 'N ≥ 10', 'corr0': 'corr > 0', 'corr0.4': 'corr > 0.4'}
+
+
+def pciseq_run(beta):
+    return {'id': 'mrf_beta_' + beta, 'label': 'pciSeq, mrf_beta ' + beta,
+            'choices': {'Method': 'pciSeq', 'mrf_beta': beta},
+            'cellData': pciseq_cell_data(beta), 'pick': 'most_likely'}
+
+
+def mapmycells_run(seed, cell_filter):
+    folder, suffix = MAPMYCELLS_SEEDS[seed]
+    cells = CELL_FILTERS[cell_filter]
+    return {'id': 'mapmycells_yao38_hard' + suffix + ('_' + cell_filter if cell_filter else ''),
+            'label': 'MapMyCells, yao38 hard, ' + ('seed 42' if seed == '42' else 'website seed') +
+                     ('' if cell_filter is None else ', ' + cells),
+            'choices': {'Method': 'MapMyCells', 'Seed': seed, 'Cells': cells},
+            'cellData': mapmycells_cell_data(folder), 'pick': 'first', 'cell_filter': cell_filter}
+
+
+RUNS = ([pciseq_run(beta) for beta in MRF_BETAS] +
+        [mapmycells_run(seed, cell_filter) for cell_filter in CELL_FILTERS for seed in MAPMYCELLS_SEEDS])
 RUN_IDS = [run['id'] for run in RUNS]
+
+
+def check_every_combination():
+    """Every mix of a method's buttons must be a run, or a click on the page finds none."""
+    for method in {run['choices']['Method'] for run in RUNS}:
+        runs = [run for run in RUNS if run['choices']['Method'] == method]
+        controls = [control for control in CONTROLS if control in runs[0]['choices']]
+        combinations = {tuple(run['choices'][control] for control in controls) for run in runs}
+        expected = 1
+        for control in controls:
+            expected *= len({run['choices'][control] for run in runs})
+        if len(combinations) != expected or len(runs) != expected:
+            raise ValueError(f'{method}: {len(runs)} runs, but its buttons make {expected} combinations')
 ALL_CLASSES_FILE = 'All_classes.webp'
 # Two class pictures share the same DAPI background, so the pixels where they
 # differ by more than this (summed over red, green and blue) are cells.
 MIN_PIXEL_DIFFERENCE = 60
+# The class list's name for the cells a filter left out (see unclassified_entry).
+UNCLASSIFIED = 'Unclassified (filtered out)'
 FALLBACK_COLOUR = '#000000'
 
 
@@ -92,8 +114,8 @@ def keep_cell(row, cell_filter):
     """Whether a cell stays in the run, by its cell_filter (see RUNS)."""
     if cell_filter is None:
         return True
-    if cell_filter == 'calls':
-        return row['Default'] == 'False'
+    if cell_filter.startswith('corr'):
+        return float(row['Corr']) > float(cell_filter[len('corr'):])
     return sum(ast.literal_eval(row['CellGeneCount'])) >= int(cell_filter[1:])
 
 
@@ -132,7 +154,32 @@ def colour_of_picture(path, reference_path):
     return '#%02x%02x%02x' % (red, green, blue)
 
 
+def unclassified_entry(counts, picture_path):
+    """The cells a run's cell_filter left out, as one more row of the class list.
+
+    The viewer draws a mask it has no cell row for as class Unknown, so a
+    filtered run's export has Unknown.png with exactly these cells. The first
+    run keeps every cell, the others are counted against it.
+    """
+    all_cells = sum(counts[RUN_IDS[0]].values())
+    cells = {run_id: all_cells - sum(counts[run_id].values()) for run_id in RUN_IDS}
+    file_name = picture_name('Unknown')
+    # The colour comes off the first run that has the picture, against the
+    # smallest class that run still has.
+    colour_run = next(run_id for run_id in RUN_IDS if cells[run_id] > 0)
+    present = [name for name, count in counts[colour_run].items() if count > 0]
+    reference = picture_name(min(present, key=lambda name: counts[colour_run][name]))
+    return {
+        'name': UNCLASSIFIED,
+        'file': file_name,
+        'colour': colour_of_picture(picture_path(colour_run, file_name), picture_path(colour_run, reference)),
+        'cells': cells,
+        'hasPicture': {run_id: os.path.exists(picture_path(run_id, file_name)) for run_id in RUN_IDS},
+    }
+
+
 def main():
+    check_every_combination()
     counts = {run['id']: cells_per_class(run) for run in RUNS}
     # Biggest class first in the first run; classes with the same count go by
     # name, so the order is the same every time the script runs.
@@ -161,12 +208,14 @@ def main():
             'cells': {run_id: counts[run_id][name] for run_id in RUN_IDS},
             'hasPicture': {run_id: os.path.exists(picture_path(run_id, file_name)) for run_id in RUN_IDS},
         })
+    classes.append(unclassified_entry(counts, picture_path))
 
     # Every picture has the same size; the page needs it to fit the picture to the window.
     picture_width, picture_height = Image.open(picture_path(RUN_IDS[0], ALL_CLASSES_FILE)).size
 
     data = {
-        'runs': [{'id': run['id'], 'label': run['label']} for run in RUNS],
+        'controls': CONTROLS,
+        'runs': [{'id': run['id'], 'label': run['label'], 'choices': run['choices']} for run in RUNS],
         'pictureSize': {'width': picture_width, 'height': picture_height},
         'allClassesFile': ALL_CLASSES_FILE,
         'totalCells': {run_id: sum(counts[run_id].values()) for run_id in RUN_IDS},

@@ -1,93 +1,223 @@
 // Written by build_data.py. Do not edit by hand.
 window.BETA_VIEWER_DATA = {
+ "controls": [
+  "Method",
+  "mrf_beta",
+  "Seed",
+  "Cells"
+ ],
  "runs": [
   {
    "id": "mrf_beta_0.0",
-   "label": "pciSeq, mrf_beta 0.0"
+   "label": "pciSeq, mrf_beta 0.0",
+   "choices": {
+    "Method": "pciSeq",
+    "mrf_beta": "0.0"
+   }
   },
   {
    "id": "mrf_beta_0.5",
-   "label": "pciSeq, mrf_beta 0.5"
+   "label": "pciSeq, mrf_beta 0.5",
+   "choices": {
+    "Method": "pciSeq",
+    "mrf_beta": "0.5"
+   }
   },
   {
    "id": "mrf_beta_1.0",
-   "label": "pciSeq, mrf_beta 1.0"
+   "label": "pciSeq, mrf_beta 1.0",
+   "choices": {
+    "Method": "pciSeq",
+    "mrf_beta": "1.0"
+   }
   },
   {
    "id": "mrf_beta_1.5",
-   "label": "pciSeq, mrf_beta 1.5"
+   "label": "pciSeq, mrf_beta 1.5",
+   "choices": {
+    "Method": "pciSeq",
+    "mrf_beta": "1.5"
+   }
   },
   {
    "id": "mapmycells_yao38_hard",
-   "label": "MapMyCells, yao38 hard (seed 42)"
+   "label": "MapMyCells, yao38 hard, seed 42",
+   "choices": {
+    "Method": "MapMyCells",
+    "Seed": "42",
+    "Cells": "all"
+   }
   },
   {
    "id": "mapmycells_yao38_hard_seed11235",
-   "label": "MapMyCells, yao38 hard (website seed)"
+   "label": "MapMyCells, yao38 hard, website seed",
+   "choices": {
+    "Method": "MapMyCells",
+    "Seed": "website",
+    "Cells": "all"
+   }
   },
   {
    "id": "mapmycells_yao38_hard_n1",
-   "label": "MapMyCells, yao38 hard (seed 42), N >= 1"
+   "label": "MapMyCells, yao38 hard, seed 42, N \u2265 1",
+   "choices": {
+    "Method": "MapMyCells",
+    "Seed": "42",
+    "Cells": "N \u2265 1"
+   }
   },
   {
    "id": "mapmycells_yao38_hard_seed11235_n1",
-   "label": "MapMyCells, yao38 hard (website seed), N >= 1"
+   "label": "MapMyCells, yao38 hard, website seed, N \u2265 1",
+   "choices": {
+    "Method": "MapMyCells",
+    "Seed": "website",
+    "Cells": "N \u2265 1"
+   }
   },
   {
    "id": "mapmycells_yao38_hard_n2",
-   "label": "MapMyCells, yao38 hard (seed 42), N >= 2"
+   "label": "MapMyCells, yao38 hard, seed 42, N \u2265 2",
+   "choices": {
+    "Method": "MapMyCells",
+    "Seed": "42",
+    "Cells": "N \u2265 2"
+   }
   },
   {
    "id": "mapmycells_yao38_hard_seed11235_n2",
-   "label": "MapMyCells, yao38 hard (website seed), N >= 2"
+   "label": "MapMyCells, yao38 hard, website seed, N \u2265 2",
+   "choices": {
+    "Method": "MapMyCells",
+    "Seed": "website",
+    "Cells": "N \u2265 2"
+   }
   },
   {
    "id": "mapmycells_yao38_hard_n3",
-   "label": "MapMyCells, yao38 hard (seed 42), N >= 3"
+   "label": "MapMyCells, yao38 hard, seed 42, N \u2265 3",
+   "choices": {
+    "Method": "MapMyCells",
+    "Seed": "42",
+    "Cells": "N \u2265 3"
+   }
   },
   {
    "id": "mapmycells_yao38_hard_seed11235_n3",
-   "label": "MapMyCells, yao38 hard (website seed), N >= 3"
+   "label": "MapMyCells, yao38 hard, website seed, N \u2265 3",
+   "choices": {
+    "Method": "MapMyCells",
+    "Seed": "website",
+    "Cells": "N \u2265 3"
+   }
   },
   {
    "id": "mapmycells_yao38_hard_n4",
-   "label": "MapMyCells, yao38 hard (seed 42), N >= 4"
+   "label": "MapMyCells, yao38 hard, seed 42, N \u2265 4",
+   "choices": {
+    "Method": "MapMyCells",
+    "Seed": "42",
+    "Cells": "N \u2265 4"
+   }
   },
   {
    "id": "mapmycells_yao38_hard_seed11235_n4",
-   "label": "MapMyCells, yao38 hard (website seed), N >= 4"
+   "label": "MapMyCells, yao38 hard, website seed, N \u2265 4",
+   "choices": {
+    "Method": "MapMyCells",
+    "Seed": "website",
+    "Cells": "N \u2265 4"
+   }
   },
   {
    "id": "mapmycells_yao38_hard_n5",
-   "label": "MapMyCells, yao38 hard (seed 42), N >= 5"
+   "label": "MapMyCells, yao38 hard, seed 42, N \u2265 5",
+   "choices": {
+    "Method": "MapMyCells",
+    "Seed": "42",
+    "Cells": "N \u2265 5"
+   }
   },
   {
    "id": "mapmycells_yao38_hard_seed11235_n5",
-   "label": "MapMyCells, yao38 hard (website seed), N >= 5"
+   "label": "MapMyCells, yao38 hard, website seed, N \u2265 5",
+   "choices": {
+    "Method": "MapMyCells",
+    "Seed": "website",
+    "Cells": "N \u2265 5"
+   }
   },
   {
    "id": "mapmycells_yao38_hard_n7",
-   "label": "MapMyCells, yao38 hard (seed 42), N >= 7"
+   "label": "MapMyCells, yao38 hard, seed 42, N \u2265 7",
+   "choices": {
+    "Method": "MapMyCells",
+    "Seed": "42",
+    "Cells": "N \u2265 7"
+   }
   },
   {
    "id": "mapmycells_yao38_hard_seed11235_n7",
-   "label": "MapMyCells, yao38 hard (website seed), N >= 7"
+   "label": "MapMyCells, yao38 hard, website seed, N \u2265 7",
+   "choices": {
+    "Method": "MapMyCells",
+    "Seed": "website",
+    "Cells": "N \u2265 7"
+   }
   },
   {
    "id": "mapmycells_yao38_hard_n10",
-   "label": "MapMyCells, yao38 hard (seed 42), N >= 10"
+   "label": "MapMyCells, yao38 hard, seed 42, N \u2265 10",
+   "choices": {
+    "Method": "MapMyCells",
+    "Seed": "42",
+    "Cells": "N \u2265 10"
+   }
   },
   {
    "id": "mapmycells_yao38_hard_seed11235_n10",
-   "label": "MapMyCells, yao38 hard (website seed), N >= 10"
+   "label": "MapMyCells, yao38 hard, website seed, N \u2265 10",
+   "choices": {
+    "Method": "MapMyCells",
+    "Seed": "website",
+    "Cells": "N \u2265 10"
+   }
   },
   {
-   "id": "mapmycells_yao38_hard_calls",
-   "label": "MapMyCells, yao38 hard (seed 42), corr > 0"
+   "id": "mapmycells_yao38_hard_corr0",
+   "label": "MapMyCells, yao38 hard, seed 42, corr > 0",
+   "choices": {
+    "Method": "MapMyCells",
+    "Seed": "42",
+    "Cells": "corr > 0"
+   }
   },
   {
-   "id": "mapmycells_yao38_hard_seed11235_calls",
-   "label": "MapMyCells, yao38 hard (website seed), corr > 0"
+   "id": "mapmycells_yao38_hard_seed11235_corr0",
+   "label": "MapMyCells, yao38 hard, website seed, corr > 0",
+   "choices": {
+    "Method": "MapMyCells",
+    "Seed": "website",
+    "Cells": "corr > 0"
+   }
+  },
+  {
+   "id": "mapmycells_yao38_hard_corr0.4",
+   "label": "MapMyCells, yao38 hard, seed 42, corr > 0.4",
+   "choices": {
+    "Method": "MapMyCells",
+    "Seed": "42",
+    "Cells": "corr > 0.4"
+   }
+  },
+  {
+   "id": "mapmycells_yao38_hard_seed11235_corr0.4",
+   "label": "MapMyCells, yao38 hard, website seed, corr > 0.4",
+   "choices": {
+    "Method": "MapMyCells",
+    "Seed": "website",
+    "Cells": "corr > 0.4"
+   }
   }
  ],
  "pictureSize": {
@@ -116,8 +246,10 @@ window.BETA_VIEWER_DATA = {
   "mapmycells_yao38_hard_seed11235_n7": 26134,
   "mapmycells_yao38_hard_n10": 22293,
   "mapmycells_yao38_hard_seed11235_n10": 22293,
-  "mapmycells_yao38_hard_calls": 24217,
-  "mapmycells_yao38_hard_seed11235_calls": 24163
+  "mapmycells_yao38_hard_corr0": 24209,
+  "mapmycells_yao38_hard_seed11235_corr0": 24154,
+  "mapmycells_yao38_hard_corr0.4": 15285,
+  "mapmycells_yao38_hard_seed11235_corr0.4": 15129
  },
  "classes": [
   {
@@ -145,8 +277,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 0,
     "mapmycells_yao38_hard_n10": 0,
     "mapmycells_yao38_hard_seed11235_n10": 0,
-    "mapmycells_yao38_hard_calls": 0,
-    "mapmycells_yao38_hard_seed11235_calls": 0
+    "mapmycells_yao38_hard_corr0": 0,
+    "mapmycells_yao38_hard_seed11235_corr0": 0,
+    "mapmycells_yao38_hard_corr0.4": 0,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 0
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -169,8 +303,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": false,
     "mapmycells_yao38_hard_n10": false,
     "mapmycells_yao38_hard_seed11235_n10": false,
-    "mapmycells_yao38_hard_calls": false,
-    "mapmycells_yao38_hard_seed11235_calls": false
+    "mapmycells_yao38_hard_corr0": false,
+    "mapmycells_yao38_hard_seed11235_corr0": false,
+    "mapmycells_yao38_hard_corr0.4": false,
+    "mapmycells_yao38_hard_seed11235_corr0.4": false
    }
   },
   {
@@ -198,8 +334,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 2969,
     "mapmycells_yao38_hard_n10": 2575,
     "mapmycells_yao38_hard_seed11235_n10": 2501,
-    "mapmycells_yao38_hard_calls": 3451,
-    "mapmycells_yao38_hard_seed11235_calls": 3356
+    "mapmycells_yao38_hard_corr0": 3451,
+    "mapmycells_yao38_hard_seed11235_corr0": 3356,
+    "mapmycells_yao38_hard_corr0.4": 3428,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 3340
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -222,8 +360,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -251,8 +391,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 820,
     "mapmycells_yao38_hard_n10": 620,
     "mapmycells_yao38_hard_seed11235_n10": 660,
-    "mapmycells_yao38_hard_calls": 949,
-    "mapmycells_yao38_hard_seed11235_calls": 1013
+    "mapmycells_yao38_hard_corr0": 949,
+    "mapmycells_yao38_hard_seed11235_corr0": 1013,
+    "mapmycells_yao38_hard_corr0.4": 308,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 348
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -275,8 +417,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -304,8 +448,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 1738,
     "mapmycells_yao38_hard_n10": 1584,
     "mapmycells_yao38_hard_seed11235_n10": 1593,
-    "mapmycells_yao38_hard_calls": 1834,
-    "mapmycells_yao38_hard_seed11235_calls": 1858
+    "mapmycells_yao38_hard_corr0": 1834,
+    "mapmycells_yao38_hard_seed11235_corr0": 1858,
+    "mapmycells_yao38_hard_corr0.4": 1364,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 1333
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -328,8 +474,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -357,8 +505,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 1357,
     "mapmycells_yao38_hard_n10": 1288,
     "mapmycells_yao38_hard_seed11235_n10": 1255,
-    "mapmycells_yao38_hard_calls": 1373,
-    "mapmycells_yao38_hard_seed11235_calls": 1350
+    "mapmycells_yao38_hard_corr0": 1370,
+    "mapmycells_yao38_hard_seed11235_corr0": 1345,
+    "mapmycells_yao38_hard_corr0.4": 775,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 726
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -381,8 +531,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -410,8 +562,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 2004,
     "mapmycells_yao38_hard_n10": 1990,
     "mapmycells_yao38_hard_seed11235_n10": 1930,
-    "mapmycells_yao38_hard_calls": 2075,
-    "mapmycells_yao38_hard_seed11235_calls": 2038
+    "mapmycells_yao38_hard_corr0": 2075,
+    "mapmycells_yao38_hard_seed11235_corr0": 2038,
+    "mapmycells_yao38_hard_corr0.4": 1909,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 1841
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -434,8 +588,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -463,8 +619,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 1782,
     "mapmycells_yao38_hard_n10": 1675,
     "mapmycells_yao38_hard_seed11235_n10": 1605,
-    "mapmycells_yao38_hard_calls": 1867,
-    "mapmycells_yao38_hard_seed11235_calls": 1786
+    "mapmycells_yao38_hard_corr0": 1866,
+    "mapmycells_yao38_hard_seed11235_corr0": 1785,
+    "mapmycells_yao38_hard_corr0.4": 680,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 662
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -487,8 +645,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -516,8 +676,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 2282,
     "mapmycells_yao38_hard_n10": 1900,
     "mapmycells_yao38_hard_seed11235_n10": 1926,
-    "mapmycells_yao38_hard_calls": 1858,
-    "mapmycells_yao38_hard_seed11235_calls": 1881
+    "mapmycells_yao38_hard_corr0": 1858,
+    "mapmycells_yao38_hard_seed11235_corr0": 1881,
+    "mapmycells_yao38_hard_corr0.4": 767,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 766
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -540,8 +702,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -569,8 +733,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 826,
     "mapmycells_yao38_hard_n10": 783,
     "mapmycells_yao38_hard_seed11235_n10": 760,
-    "mapmycells_yao38_hard_calls": 789,
-    "mapmycells_yao38_hard_seed11235_calls": 775
+    "mapmycells_yao38_hard_corr0": 789,
+    "mapmycells_yao38_hard_seed11235_corr0": 775,
+    "mapmycells_yao38_hard_corr0.4": 494,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 484
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -593,8 +759,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -622,8 +790,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 946,
     "mapmycells_yao38_hard_n10": 870,
     "mapmycells_yao38_hard_seed11235_n10": 886,
-    "mapmycells_yao38_hard_calls": 937,
-    "mapmycells_yao38_hard_seed11235_calls": 937
+    "mapmycells_yao38_hard_corr0": 937,
+    "mapmycells_yao38_hard_seed11235_corr0": 937,
+    "mapmycells_yao38_hard_corr0.4": 583,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 594
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -646,8 +816,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -675,8 +847,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 3808,
     "mapmycells_yao38_hard_n10": 2729,
     "mapmycells_yao38_hard_seed11235_n10": 2745,
-    "mapmycells_yao38_hard_calls": 2765,
-    "mapmycells_yao38_hard_seed11235_calls": 2782
+    "mapmycells_yao38_hard_corr0": 2764,
+    "mapmycells_yao38_hard_seed11235_corr0": 2781,
+    "mapmycells_yao38_hard_corr0.4": 938,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 958
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -699,8 +873,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -728,8 +904,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 1041,
     "mapmycells_yao38_hard_n10": 924,
     "mapmycells_yao38_hard_seed11235_n10": 905,
-    "mapmycells_yao38_hard_calls": 1020,
-    "mapmycells_yao38_hard_seed11235_calls": 990
+    "mapmycells_yao38_hard_corr0": 1020,
+    "mapmycells_yao38_hard_seed11235_corr0": 990,
+    "mapmycells_yao38_hard_corr0.4": 517,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 513
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -752,8 +930,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -781,8 +961,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 1194,
     "mapmycells_yao38_hard_n10": 832,
     "mapmycells_yao38_hard_seed11235_n10": 952,
-    "mapmycells_yao38_hard_calls": 395,
-    "mapmycells_yao38_hard_seed11235_calls": 466
+    "mapmycells_yao38_hard_corr0": 395,
+    "mapmycells_yao38_hard_seed11235_corr0": 466,
+    "mapmycells_yao38_hard_corr0.4": 135,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 143
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -805,8 +987,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -834,8 +1018,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 373,
     "mapmycells_yao38_hard_n10": 309,
     "mapmycells_yao38_hard_seed11235_n10": 317,
-    "mapmycells_yao38_hard_calls": 359,
-    "mapmycells_yao38_hard_seed11235_calls": 349
+    "mapmycells_yao38_hard_corr0": 359,
+    "mapmycells_yao38_hard_seed11235_corr0": 349,
+    "mapmycells_yao38_hard_corr0.4": 177,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 185
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -858,8 +1044,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -887,8 +1075,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 186,
     "mapmycells_yao38_hard_n10": 123,
     "mapmycells_yao38_hard_seed11235_n10": 127,
-    "mapmycells_yao38_hard_calls": 245,
-    "mapmycells_yao38_hard_seed11235_calls": 245
+    "mapmycells_yao38_hard_corr0": 245,
+    "mapmycells_yao38_hard_seed11235_corr0": 245,
+    "mapmycells_yao38_hard_corr0.4": 243,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 245
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -911,8 +1101,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -940,8 +1132,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 204,
     "mapmycells_yao38_hard_n10": 155,
     "mapmycells_yao38_hard_seed11235_n10": 164,
-    "mapmycells_yao38_hard_calls": 226,
-    "mapmycells_yao38_hard_seed11235_calls": 238
+    "mapmycells_yao38_hard_corr0": 226,
+    "mapmycells_yao38_hard_seed11235_corr0": 238,
+    "mapmycells_yao38_hard_corr0.4": 7,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 11
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -964,8 +1158,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -993,8 +1189,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 302,
     "mapmycells_yao38_hard_n10": 271,
     "mapmycells_yao38_hard_seed11235_n10": 291,
-    "mapmycells_yao38_hard_calls": 294,
-    "mapmycells_yao38_hard_seed11235_calls": 308
+    "mapmycells_yao38_hard_corr0": 294,
+    "mapmycells_yao38_hard_seed11235_corr0": 308,
+    "mapmycells_yao38_hard_corr0.4": 256,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 271
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -1017,8 +1215,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -1046,8 +1246,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 10,
     "mapmycells_yao38_hard_n10": 11,
     "mapmycells_yao38_hard_seed11235_n10": 9,
-    "mapmycells_yao38_hard_calls": 13,
-    "mapmycells_yao38_hard_seed11235_calls": 10
+    "mapmycells_yao38_hard_corr0": 13,
+    "mapmycells_yao38_hard_seed11235_corr0": 10,
+    "mapmycells_yao38_hard_corr0.4": 10,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 8
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -1070,8 +1272,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -1099,8 +1303,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 230,
     "mapmycells_yao38_hard_n10": 224,
     "mapmycells_yao38_hard_seed11235_n10": 221,
-    "mapmycells_yao38_hard_calls": 235,
-    "mapmycells_yao38_hard_seed11235_calls": 232
+    "mapmycells_yao38_hard_corr0": 235,
+    "mapmycells_yao38_hard_seed11235_corr0": 232,
+    "mapmycells_yao38_hard_corr0.4": 219,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 218
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -1123,8 +1329,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -1152,8 +1360,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 213,
     "mapmycells_yao38_hard_n10": 180,
     "mapmycells_yao38_hard_seed11235_n10": 167,
-    "mapmycells_yao38_hard_calls": 254,
-    "mapmycells_yao38_hard_seed11235_calls": 238
+    "mapmycells_yao38_hard_corr0": 254,
+    "mapmycells_yao38_hard_seed11235_corr0": 238,
+    "mapmycells_yao38_hard_corr0.4": 252,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 235
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -1176,8 +1386,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -1205,8 +1417,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 341,
     "mapmycells_yao38_hard_n10": 316,
     "mapmycells_yao38_hard_seed11235_n10": 298,
-    "mapmycells_yao38_hard_calls": 297,
-    "mapmycells_yao38_hard_seed11235_calls": 263
+    "mapmycells_yao38_hard_corr0": 294,
+    "mapmycells_yao38_hard_seed11235_corr0": 261,
+    "mapmycells_yao38_hard_corr0.4": 101,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 81
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -1229,8 +1443,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -1258,8 +1474,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 230,
     "mapmycells_yao38_hard_n10": 209,
     "mapmycells_yao38_hard_seed11235_n10": 222,
-    "mapmycells_yao38_hard_calls": 223,
-    "mapmycells_yao38_hard_seed11235_calls": 233
+    "mapmycells_yao38_hard_corr0": 223,
+    "mapmycells_yao38_hard_seed11235_corr0": 233,
+    "mapmycells_yao38_hard_corr0.4": 211,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 211
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -1282,8 +1500,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -1311,8 +1531,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 192,
     "mapmycells_yao38_hard_n10": 191,
     "mapmycells_yao38_hard_seed11235_n10": 184,
-    "mapmycells_yao38_hard_calls": 202,
-    "mapmycells_yao38_hard_seed11235_calls": 198
+    "mapmycells_yao38_hard_corr0": 202,
+    "mapmycells_yao38_hard_seed11235_corr0": 198,
+    "mapmycells_yao38_hard_corr0.4": 188,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 187
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -1335,8 +1557,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -1364,8 +1588,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 184,
     "mapmycells_yao38_hard_n10": 155,
     "mapmycells_yao38_hard_seed11235_n10": 159,
-    "mapmycells_yao38_hard_calls": 207,
-    "mapmycells_yao38_hard_seed11235_calls": 201
+    "mapmycells_yao38_hard_corr0": 207,
+    "mapmycells_yao38_hard_seed11235_corr0": 201,
+    "mapmycells_yao38_hard_corr0.4": 206,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 198
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -1388,8 +1614,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -1417,8 +1645,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 365,
     "mapmycells_yao38_hard_n10": 296,
     "mapmycells_yao38_hard_seed11235_n10": 304,
-    "mapmycells_yao38_hard_calls": 369,
-    "mapmycells_yao38_hard_seed11235_calls": 387
+    "mapmycells_yao38_hard_corr0": 369,
+    "mapmycells_yao38_hard_seed11235_corr0": 387,
+    "mapmycells_yao38_hard_corr0.4": 229,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 235
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -1441,8 +1671,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -1470,8 +1702,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 352,
     "mapmycells_yao38_hard_n10": 289,
     "mapmycells_yao38_hard_seed11235_n10": 288,
-    "mapmycells_yao38_hard_calls": 404,
-    "mapmycells_yao38_hard_seed11235_calls": 405
+    "mapmycells_yao38_hard_corr0": 404,
+    "mapmycells_yao38_hard_seed11235_corr0": 405,
+    "mapmycells_yao38_hard_corr0.4": 404,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 405
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -1494,8 +1728,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -1523,8 +1759,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 99,
     "mapmycells_yao38_hard_n10": 87,
     "mapmycells_yao38_hard_seed11235_n10": 97,
-    "mapmycells_yao38_hard_calls": 88,
-    "mapmycells_yao38_hard_seed11235_calls": 104
+    "mapmycells_yao38_hard_corr0": 88,
+    "mapmycells_yao38_hard_seed11235_corr0": 104,
+    "mapmycells_yao38_hard_corr0.4": 80,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 91
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -1547,8 +1785,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -1576,8 +1816,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 130,
     "mapmycells_yao38_hard_n10": 118,
     "mapmycells_yao38_hard_seed11235_n10": 114,
-    "mapmycells_yao38_hard_calls": 114,
-    "mapmycells_yao38_hard_seed11235_calls": 120
+    "mapmycells_yao38_hard_corr0": 114,
+    "mapmycells_yao38_hard_seed11235_corr0": 120,
+    "mapmycells_yao38_hard_corr0.4": 72,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 76
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -1600,8 +1842,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -1629,8 +1873,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 145,
     "mapmycells_yao38_hard_n10": 109,
     "mapmycells_yao38_hard_seed11235_n10": 117,
-    "mapmycells_yao38_hard_calls": 150,
-    "mapmycells_yao38_hard_seed11235_calls": 180
+    "mapmycells_yao38_hard_corr0": 150,
+    "mapmycells_yao38_hard_seed11235_corr0": 180,
+    "mapmycells_yao38_hard_corr0.4": 150,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 180
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -1653,8 +1899,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -1682,8 +1930,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 179,
     "mapmycells_yao38_hard_n10": 165,
     "mapmycells_yao38_hard_seed11235_n10": 168,
-    "mapmycells_yao38_hard_calls": 181,
-    "mapmycells_yao38_hard_seed11235_calls": 183
+    "mapmycells_yao38_hard_corr0": 181,
+    "mapmycells_yao38_hard_seed11235_corr0": 183,
+    "mapmycells_yao38_hard_corr0.4": 169,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 162
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -1706,8 +1956,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -1735,8 +1987,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 234,
     "mapmycells_yao38_hard_n10": 194,
     "mapmycells_yao38_hard_seed11235_n10": 185,
-    "mapmycells_yao38_hard_calls": 280,
-    "mapmycells_yao38_hard_seed11235_calls": 270
+    "mapmycells_yao38_hard_corr0": 280,
+    "mapmycells_yao38_hard_seed11235_corr0": 270,
+    "mapmycells_yao38_hard_corr0.4": 94,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 91
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -1759,8 +2013,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -1788,8 +2044,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 7,
     "mapmycells_yao38_hard_n10": 7,
     "mapmycells_yao38_hard_seed11235_n10": 7,
-    "mapmycells_yao38_hard_calls": 7,
-    "mapmycells_yao38_hard_seed11235_calls": 7
+    "mapmycells_yao38_hard_corr0": 7,
+    "mapmycells_yao38_hard_seed11235_corr0": 7,
+    "mapmycells_yao38_hard_corr0.4": 7,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 7
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -1812,8 +2070,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -1841,8 +2101,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 1072,
     "mapmycells_yao38_hard_n10": 818,
     "mapmycells_yao38_hard_seed11235_n10": 850,
-    "mapmycells_yao38_hard_calls": 387,
-    "mapmycells_yao38_hard_seed11235_calls": 402
+    "mapmycells_yao38_hard_corr0": 387,
+    "mapmycells_yao38_hard_seed11235_corr0": 402,
+    "mapmycells_yao38_hard_corr0.4": 19,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 25
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -1865,8 +2127,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -1894,8 +2158,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 176,
     "mapmycells_yao38_hard_n10": 142,
     "mapmycells_yao38_hard_seed11235_n10": 159,
-    "mapmycells_yao38_hard_calls": 169,
-    "mapmycells_yao38_hard_seed11235_calls": 190
+    "mapmycells_yao38_hard_corr0": 169,
+    "mapmycells_yao38_hard_seed11235_corr0": 190,
+    "mapmycells_yao38_hard_corr0.4": 169,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 190
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -1918,8 +2184,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -1947,8 +2215,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 79,
     "mapmycells_yao38_hard_n10": 86,
     "mapmycells_yao38_hard_seed11235_n10": 69,
-    "mapmycells_yao38_hard_calls": 115,
-    "mapmycells_yao38_hard_seed11235_calls": 96
+    "mapmycells_yao38_hard_corr0": 115,
+    "mapmycells_yao38_hard_seed11235_corr0": 96,
+    "mapmycells_yao38_hard_corr0.4": 42,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 39
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -1971,8 +2241,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -2000,8 +2272,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 19,
     "mapmycells_yao38_hard_n10": 18,
     "mapmycells_yao38_hard_seed11235_n10": 16,
-    "mapmycells_yao38_hard_calls": 27,
-    "mapmycells_yao38_hard_seed11235_calls": 24
+    "mapmycells_yao38_hard_corr0": 27,
+    "mapmycells_yao38_hard_seed11235_corr0": 24,
+    "mapmycells_yao38_hard_corr0.4": 24,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 23
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -2024,8 +2298,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -2053,8 +2329,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 35,
     "mapmycells_yao38_hard_n10": 36,
     "mapmycells_yao38_hard_seed11235_n10": 33,
-    "mapmycells_yao38_hard_calls": 39,
-    "mapmycells_yao38_hard_seed11235_calls": 37
+    "mapmycells_yao38_hard_corr0": 39,
+    "mapmycells_yao38_hard_seed11235_corr0": 37,
+    "mapmycells_yao38_hard_corr0.4": 39,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 37
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -2077,8 +2355,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -2106,8 +2386,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 5,
     "mapmycells_yao38_hard_n10": 4,
     "mapmycells_yao38_hard_seed11235_n10": 5,
-    "mapmycells_yao38_hard_calls": 5,
-    "mapmycells_yao38_hard_seed11235_calls": 6
+    "mapmycells_yao38_hard_corr0": 5,
+    "mapmycells_yao38_hard_seed11235_corr0": 6,
+    "mapmycells_yao38_hard_corr0.4": 5,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 5
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -2130,8 +2412,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   },
   {
@@ -2159,8 +2443,10 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": 5,
     "mapmycells_yao38_hard_n10": 10,
     "mapmycells_yao38_hard_seed11235_n10": 4,
-    "mapmycells_yao38_hard_calls": 14,
-    "mapmycells_yao38_hard_seed11235_calls": 5
+    "mapmycells_yao38_hard_corr0": 14,
+    "mapmycells_yao38_hard_seed11235_corr0": 5,
+    "mapmycells_yao38_hard_corr0.4": 14,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 5
    },
    "hasPicture": {
     "mrf_beta_0.0": true,
@@ -2183,8 +2469,67 @@ window.BETA_VIEWER_DATA = {
     "mapmycells_yao38_hard_seed11235_n7": true,
     "mapmycells_yao38_hard_n10": true,
     "mapmycells_yao38_hard_seed11235_n10": true,
-    "mapmycells_yao38_hard_calls": true,
-    "mapmycells_yao38_hard_seed11235_calls": true
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
+   }
+  },
+  {
+   "name": "Unclassified (filtered out)",
+   "file": "Unknown.webp",
+   "colour": "#bfbfbf",
+   "cells": {
+    "mrf_beta_0.0": 0,
+    "mrf_beta_0.5": 0,
+    "mrf_beta_1.0": 0,
+    "mrf_beta_1.5": 0,
+    "mapmycells_yao38_hard": 0,
+    "mapmycells_yao38_hard_seed11235": 0,
+    "mapmycells_yao38_hard_n1": 2768,
+    "mapmycells_yao38_hard_seed11235_n1": 2768,
+    "mapmycells_yao38_hard_n2": 4428,
+    "mapmycells_yao38_hard_seed11235_n2": 4428,
+    "mapmycells_yao38_hard_n3": 5816,
+    "mapmycells_yao38_hard_seed11235_n3": 5816,
+    "mapmycells_yao38_hard_n4": 7129,
+    "mapmycells_yao38_hard_seed11235_n4": 7129,
+    "mapmycells_yao38_hard_n5": 8515,
+    "mapmycells_yao38_hard_seed11235_n5": 8515,
+    "mapmycells_yao38_hard_n7": 11176,
+    "mapmycells_yao38_hard_seed11235_n7": 11176,
+    "mapmycells_yao38_hard_n10": 15017,
+    "mapmycells_yao38_hard_seed11235_n10": 15017,
+    "mapmycells_yao38_hard_corr0": 13101,
+    "mapmycells_yao38_hard_seed11235_corr0": 13156,
+    "mapmycells_yao38_hard_corr0.4": 22025,
+    "mapmycells_yao38_hard_seed11235_corr0.4": 22181
+   },
+   "hasPicture": {
+    "mrf_beta_0.0": false,
+    "mrf_beta_0.5": false,
+    "mrf_beta_1.0": false,
+    "mrf_beta_1.5": false,
+    "mapmycells_yao38_hard": false,
+    "mapmycells_yao38_hard_seed11235": false,
+    "mapmycells_yao38_hard_n1": true,
+    "mapmycells_yao38_hard_seed11235_n1": true,
+    "mapmycells_yao38_hard_n2": true,
+    "mapmycells_yao38_hard_seed11235_n2": true,
+    "mapmycells_yao38_hard_n3": true,
+    "mapmycells_yao38_hard_seed11235_n3": true,
+    "mapmycells_yao38_hard_n4": true,
+    "mapmycells_yao38_hard_seed11235_n4": true,
+    "mapmycells_yao38_hard_n5": true,
+    "mapmycells_yao38_hard_seed11235_n5": true,
+    "mapmycells_yao38_hard_n7": true,
+    "mapmycells_yao38_hard_seed11235_n7": true,
+    "mapmycells_yao38_hard_n10": true,
+    "mapmycells_yao38_hard_seed11235_n10": true,
+    "mapmycells_yao38_hard_corr0": true,
+    "mapmycells_yao38_hard_seed11235_corr0": true,
+    "mapmycells_yao38_hard_corr0.4": true,
+    "mapmycells_yao38_hard_seed11235_corr0.4": true
    }
   }
  ]

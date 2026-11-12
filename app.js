@@ -19,10 +19,13 @@ const ALL_CLASSES = {
 };
 const ENTRIES = [ALL_CLASSES, ...DATA.classes];
 
-// What the page shows now.
+// What the page shows now. choices holds the button picked in every row of the
+// run picker, also in the rows hidden for the other method, so going back to a
+// method finds its buttons as they were left.
 const selection = {
     entry: ALL_CLASSES,
     run: DATA.runs[0],
+    choices: firstChoices(),
 };
 
 const stage = document.getElementById('stage');
@@ -31,7 +34,7 @@ const viewport = document.getElementById('viewport');
 const zoomPan = createZoomPan(stage, viewport, DATA.pictureSize);
 const classList = document.getElementById('classList');
 const classFilter = document.getElementById('classFilter');
-const runOptions = document.getElementById('runOptions');
+const runControls = document.getElementById('runControls');
 
 // Counts every picture change, so a picture that finishes loading after a newer
 // one was asked for is dropped instead of shown.
@@ -179,23 +182,73 @@ function applyClassFilter() {
 
 // ---------------------------------------------------------------- the run picker
 
-function buildRunOptions() {
-    for (const run of DATA.runs) {
-        const option = document.createElement('label');
-        option.className = 'run-option';
+/**
+ * One row of buttons per control of DATA.controls (Method, mrf_beta, Seed,
+ * Cells). Every run says which button it is in each row (run.choices), and a
+ * row is shown only when the runs of the picked method have it: pciSeq has
+ * mrf_beta, MapMyCells has Seed and Cells.
+ */
 
-        const radio = document.createElement('input');
-        radio.type = 'radio';
-        radio.name = 'run';
-        radio.value = run.id;
-        radio.checked = run === selection.run;
-        radio.addEventListener('change', () => selectRun(run));
+/** The values of one control, in the order of the runs that have it. */
+function valuesOf(control) {
+    const values = DATA.runs.map(run => run.choices[control]).filter(value => value !== undefined);
+    return [...new Set(values)];
+}
 
-        const text = document.createElement('span');
-        text.textContent = run.label;
+/** The first run's choices, plus the first value of each control it does not have. */
+function firstChoices() {
+    const choices = {};
+    for (const control of DATA.controls) choices[control] = valuesOf(control)[0];
+    return { ...choices, ...DATA.runs[0].choices };
+}
 
-        option.append(radio, text);
-        runOptions.appendChild(option);
+/** The run whose every choice is the one picked. build_data.py checks there is always one. */
+function runOf(choices) {
+    return DATA.runs.find(run =>
+        Object.entries(run.choices).every(([control, value]) => choices[control] === value));
+}
+
+function buildControlRow(control) {
+    const row = document.createElement('div');
+    row.className = 'run-control';
+
+    const name = document.createElement('span');
+    name.className = 'run-control-name';
+    name.textContent = control;
+
+    const buttons = document.createElement('div');
+    buttons.className = 'run-control-buttons';
+    for (const value of valuesOf(control)) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.textContent = value;
+        button.dataset.value = value;
+        button.addEventListener('click', () => selectChoice(control, value));
+        buttons.appendChild(button);
+    }
+
+    row.append(name, buttons);
+    return row;
+}
+
+function buildRunPicker() {
+    for (const control of DATA.controls) {
+        const row = buildControlRow(control);
+        row.dataset.control = control;
+        runControls.appendChild(row);
+    }
+}
+
+/** Which rows show and which button in each is lit, for the run picked. */
+function refreshRunPicker() {
+    for (const row of runControls.children) {
+        const control = row.dataset.control;
+        row.hidden = !(control in selection.run.choices);
+        for (const button of row.querySelectorAll('button')) {
+            const picked = button.dataset.value === selection.choices[control];
+            button.classList.toggle('selected', picked);
+            button.setAttribute('aria-pressed', String(picked));
+        }
     }
 }
 
@@ -217,6 +270,7 @@ function refreshCaption() {
 // ---------------------------------------------------------------- changing the selection
 
 function refreshEverything() {
+    refreshRunPicker();
     refreshClassRows();
     refreshCaption();
     showSelectedPicture();
@@ -232,9 +286,14 @@ function selectEntry(entry) {
 function selectRun(run) {
     if (run === selection.run) return;
     selection.run = run;
-    const radio = runOptions.querySelector(`input[value="${run.id}"]`);
-    radio.checked = true;
+    Object.assign(selection.choices, run.choices);
     refreshEverything();
+}
+
+/** A button of the run picker: change that one choice and keep the others. */
+function selectChoice(control, value) {
+    const choices = { ...selection.choices, [control]: value };
+    selectRun(runOf(choices));
 }
 
 /** Move the class selection up or down the rows the filter leaves visible. */
@@ -257,9 +316,10 @@ function setupZoomButtons() {
 }
 
 /**
- * Keyboard: up and down walk through the classes, left and right (or the run's
- * number in the list, 1 to 5) change run, + and - zoom, 0 goes back to the
- * starting view. Keys typed into the filter box are left alone.
+ * Keyboard: up and down walk through the classes, left and right step through
+ * the runs in the order of data.js (the number keys jump to the first nine),
+ * + and - zoom, 0 goes back to the starting view. Keys typed into the filter
+ * box are left alone.
  */
 function handleKey(event) {
     if (event.target === classFilter) return;
@@ -282,7 +342,7 @@ function handleKey(event) {
 // ---------------------------------------------------------------- start
 
 buildClassList();
-buildRunOptions();
+buildRunPicker();
 setupZoomButtons();
 setupDrawerToggle(document.getElementById('drawer'), document.getElementById('drawerRail'));
 setupResizableList(classList, document.getElementById('classListResizeHandle'));
