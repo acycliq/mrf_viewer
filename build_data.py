@@ -43,7 +43,7 @@ def pciseq_cell_data(beta):
 # only cells whose Corr in MapMyCells' cellData is above X (0 drops exactly the
 # tool's default calls, 0.4 is the cut Allen's notebooks use), n<N> = only cells
 # with at least N reads.
-CONTROLS = ['Method', 'mrf_beta', 'Cells']
+CONTROLS = ['Method', 'mrf_beta', 'Filter']
 MRF_BETAS = ['0.0', '0.5', '1.0', '1.5']
 # seed shown -> (run folder, id suffix); website is the seed and worker count the
 # MapMyCells website uses (11235 and 32), on the same 38 classes
@@ -51,9 +51,29 @@ MAPMYCELLS_SEEDS = {'website': ('hard_seed11235_p32', '_seed11235')}
 # Seed 42 ('42': ('hard', '')) was on the page until 12 Nov 2026 with a Seed row of buttons;
 # taken off to keep it simple, the seed barely changes the totals and the agreement with pciSeq
 # (aang_mapmycells/sweep.py).
-# cell filter -> the button's text
-CELL_FILTERS = {None: 'all', 'n1': 'N ≥ 1', 'n3': 'N ≥ 3',
-                'n5': 'N ≥ 5', 'n7': 'N ≥ 7', 'n10': 'N ≥ 10', 'corr0': 'corr > 0', 'corr0.4': 'corr > 0.4'}
+# cell filter -> its button in the Filter row: value names the run's choice (and goes in its
+# label), group is the short name in front of a strip of buttons of the same kind, text is what
+# the button shows. Only one button of the row is picked at a time, the groups only sort them.
+READ_CUTS = [1, 3, 5, 7, 10]
+CORR_CUTS = ['0', '0.4']
+CELL_FILTERS = {None: {'value': 'none', 'group': '', 'text': 'none'}}
+for n in READ_CUTS:
+    CELL_FILTERS[f'n{n}'] = {'value': f'reads ≥ {n}', 'group': 'reads ≥', 'text': str(n)}
+for cut in CORR_CUTS:
+    CELL_FILTERS['corr' + cut] = {'value': f'corr > {cut}', 'group': 'corr >', 'text': cut}
+
+
+def filter_title(cell_filter, left_out):
+    """The tooltip of a Filter button, in plain words."""
+    if cell_filter is None:
+        return 'every cell, none left out'
+    left = f' ({left_out:,} left out)'
+    if cell_filter.startswith('n'):
+        n = int(cell_filter[1:])
+        return f'only cells with at least {n} read' + ('' if n == 1 else 's') + left
+    if cell_filter == 'corr0':
+        return 'only cells MapMyCells could match, correlation above 0; the others got its default call' + left
+    return f'only cells MapMyCells matched well, correlation above {cell_filter[4:]}, the cut Allen uses' + left
 
 
 def pciseq_run(beta):
@@ -74,11 +94,11 @@ def mapmycells_run(markers, seed, cell_filter):
         folder = folder.replace('hard', 'hard_panel')
         suffix = '_panel' + suffix
     method = MAPMYCELLS_MARKERS[markers]
-    cells = CELL_FILTERS[cell_filter]
+    value = CELL_FILTERS[cell_filter]['value']
     return {'id': 'mapmycells_yao38_hard' + suffix + ('_' + cell_filter if cell_filter else ''),
             'label': method + ', yao38 hard, ' + ('seed 42' if seed == '42' else 'website seed') +
-                     ('' if cell_filter is None else ', ' + cells),
-            'choices': {'Method': method, 'Cells': cells},
+                     ('' if cell_filter is None else ', ' + value),
+            'choices': {'Method': method, 'Filter': value},
             'cellData': mapmycells_cell_data(folder), 'pick': 'first', 'cell_filter': cell_filter}
 
 
@@ -168,6 +188,21 @@ def colour_of_picture(path, reference_path):
     return '#%02x%02x%02x' % (red, green, blue)
 
 
+def filter_buttons(counts):
+    """Group, text and tooltip of each Filter button, keyed by the run's choice."""
+    all_cells = sum(counts[RUN_IDS[0]].values())
+    buttons = {}
+    for run in RUNS:
+        if 'Filter' not in run['choices']:
+            continue
+        cell_filter = run['cell_filter']
+        left_out = all_cells - sum(counts[run['id']].values())
+        button = dict(CELL_FILTERS[cell_filter])
+        button['title'] = filter_title(cell_filter, left_out)
+        buttons[button.pop('value')] = button
+    return buttons
+
+
 def unclassified_entry(counts, picture_path):
     """The cells a run's cell_filter left out, as one more row of the class list.
 
@@ -229,6 +264,7 @@ def main():
 
     data = {
         'controls': CONTROLS,
+        'buttons': {'Filter': filter_buttons(counts)},
         'runs': [{'id': run['id'], 'label': run['label'], 'choices': run['choices']} for run in RUNS],
         'pictureSize': {'width': picture_width, 'height': picture_height},
         'allClassesFile': ALL_CLASSES_FILE,

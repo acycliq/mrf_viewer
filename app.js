@@ -208,6 +208,27 @@ function runOf(choices) {
         Object.entries(run.choices).every(([control, value]) => choices[control] === value));
 }
 
+/** Text, tooltip and group of one button; data.js gives them for the Filter row only. */
+function buttonInfo(control, value) {
+    const info = (DATA.buttons[control] || {})[value] || {};
+    return { text: info.text || value, title: info.title || '', group: info.group || '' };
+}
+
+function buildButton(control, value, info) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = info.text;
+    button.title = info.title;
+    button.dataset.value = value;
+    button.addEventListener('click', () => selectChoice(control, value));
+    return button;
+}
+
+/**
+ * The control's name, then its buttons. Buttons of the same group (reads, corr)
+ * share one strip with the group's name in front of it, so the kinds of filter
+ * stand apart; it is still one row where one button is picked.
+ */
 function buildControlRow(control) {
     const row = document.createElement('div');
     row.className = 'run-control';
@@ -215,19 +236,26 @@ function buildControlRow(control) {
     const name = document.createElement('span');
     name.className = 'run-control-name';
     name.textContent = control;
+    row.appendChild(name);
 
-    const buttons = document.createElement('div');
-    buttons.className = 'run-control-buttons';
+    let strip = null;
+    let stripGroup = null;
     for (const value of valuesOf(control)) {
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.textContent = value;
-        button.dataset.value = value;
-        button.addEventListener('click', () => selectChoice(control, value));
-        buttons.appendChild(button);
+        const info = buttonInfo(control, value);
+        if (strip === null || info.group !== stripGroup) {
+            if (info.group) {
+                const group = document.createElement('span');
+                group.className = 'run-control-group';
+                group.textContent = info.group;
+                row.appendChild(group);
+            }
+            strip = document.createElement('div');
+            strip.className = 'run-control-buttons';
+            row.appendChild(strip);
+            stripGroup = info.group;
+        }
+        strip.appendChild(buildButton(control, value, info));
     }
-
-    row.append(name, buttons);
     return row;
 }
 

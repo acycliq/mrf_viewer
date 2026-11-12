@@ -3,8 +3,52 @@ window.BETA_VIEWER_DATA = {
  "controls": [
   "Method",
   "mrf_beta",
-  "Cells"
+  "Filter"
  ],
+ "buttons": {
+  "Filter": {
+   "none": {
+    "group": "",
+    "text": "none",
+    "title": "every cell, none left out"
+   },
+   "reads \u2265 1": {
+    "group": "reads \u2265",
+    "text": "1",
+    "title": "only cells with at least 1 read (2,768 left out)"
+   },
+   "reads \u2265 3": {
+    "group": "reads \u2265",
+    "text": "3",
+    "title": "only cells with at least 3 reads (5,816 left out)"
+   },
+   "reads \u2265 5": {
+    "group": "reads \u2265",
+    "text": "5",
+    "title": "only cells with at least 5 reads (8,515 left out)"
+   },
+   "reads \u2265 7": {
+    "group": "reads \u2265",
+    "text": "7",
+    "title": "only cells with at least 7 reads (11,176 left out)"
+   },
+   "reads \u2265 10": {
+    "group": "reads \u2265",
+    "text": "10",
+    "title": "only cells with at least 10 reads (15,017 left out)"
+   },
+   "corr > 0": {
+    "group": "corr >",
+    "text": "0",
+    "title": "only cells MapMyCells could match, correlation above 0; the others got its default call (13,156 left out)"
+   },
+   "corr > 0.4": {
+    "group": "corr >",
+    "text": "0.4",
+    "title": "only cells MapMyCells matched well, correlation above 0.4, the cut Allen uses (22,181 left out)"
+   }
+  }
+ },
  "runs": [
   {
    "id": "mrf_beta_0.0",
@@ -43,47 +87,47 @@ window.BETA_VIEWER_DATA = {
    "label": "MapMyCells, yao38 hard, website seed",
    "choices": {
     "Method": "MapMyCells",
-    "Cells": "all"
+    "Filter": "none"
    }
   },
   {
    "id": "mapmycells_yao38_hard_seed11235_n1",
-   "label": "MapMyCells, yao38 hard, website seed, N \u2265 1",
+   "label": "MapMyCells, yao38 hard, website seed, reads \u2265 1",
    "choices": {
     "Method": "MapMyCells",
-    "Cells": "N \u2265 1"
+    "Filter": "reads \u2265 1"
    }
   },
   {
    "id": "mapmycells_yao38_hard_seed11235_n3",
-   "label": "MapMyCells, yao38 hard, website seed, N \u2265 3",
+   "label": "MapMyCells, yao38 hard, website seed, reads \u2265 3",
    "choices": {
     "Method": "MapMyCells",
-    "Cells": "N \u2265 3"
+    "Filter": "reads \u2265 3"
    }
   },
   {
    "id": "mapmycells_yao38_hard_seed11235_n5",
-   "label": "MapMyCells, yao38 hard, website seed, N \u2265 5",
+   "label": "MapMyCells, yao38 hard, website seed, reads \u2265 5",
    "choices": {
     "Method": "MapMyCells",
-    "Cells": "N \u2265 5"
+    "Filter": "reads \u2265 5"
    }
   },
   {
    "id": "mapmycells_yao38_hard_seed11235_n7",
-   "label": "MapMyCells, yao38 hard, website seed, N \u2265 7",
+   "label": "MapMyCells, yao38 hard, website seed, reads \u2265 7",
    "choices": {
     "Method": "MapMyCells",
-    "Cells": "N \u2265 7"
+    "Filter": "reads \u2265 7"
    }
   },
   {
    "id": "mapmycells_yao38_hard_seed11235_n10",
-   "label": "MapMyCells, yao38 hard, website seed, N \u2265 10",
+   "label": "MapMyCells, yao38 hard, website seed, reads \u2265 10",
    "choices": {
     "Method": "MapMyCells",
-    "Cells": "N \u2265 10"
+    "Filter": "reads \u2265 10"
    }
   },
   {
@@ -91,7 +135,7 @@ window.BETA_VIEWER_DATA = {
    "label": "MapMyCells, yao38 hard, website seed, corr > 0",
    "choices": {
     "Method": "MapMyCells",
-    "Cells": "corr > 0"
+    "Filter": "corr > 0"
    }
   },
   {
@@ -99,7 +143,7 @@ window.BETA_VIEWER_DATA = {
    "label": "MapMyCells, yao38 hard, website seed, corr > 0.4",
    "choices": {
     "Method": "MapMyCells",
-    "Cells": "corr > 0.4"
+    "Filter": "corr > 0.4"
    }
   }
  ],
