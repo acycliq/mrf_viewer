@@ -8,8 +8,8 @@ window.BETA_VIEWER_DATA = {
  "buttons": {
   "Filter": {
    "none": {
-    "group": "",
-    "text": "none",
+    "group": "reads \u2265",
+    "text": "0",
     "title": "every cell, none left out"
    },
    "reads \u2265 1": {
@@ -49,6 +49,11 @@ window.BETA_VIEWER_DATA = {
    }
   }
  },
+ "sliders": [
+  "mrf_beta",
+  "reads \u2265",
+  "corr >"
+ ],
  "runs": [
   {
    "id": "mrf_beta_0.0",
@@ -1456,6 +1461,7 @@ window.BETA_VIEWER_DATA = {
   },
   {
    "name": "Unclassified (filtered out)",
+   "keepLast": true,
    "file": "Unknown.webp",
    "colour": "#bfbfbf",
    "cells": {

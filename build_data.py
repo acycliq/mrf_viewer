@@ -45,18 +45,22 @@ def pciseq_cell_data(beta):
 # with at least N reads.
 CONTROLS = ['Method', 'mrf_beta', 'Filter']
 MRF_BETAS = ['0.0', '0.5', '1.0', '1.5']
+# Drawn as a slider instead of radio buttons: a whole control (mrf_beta) or one group of the
+# Filter row (reads, corr). The rest are radio buttons.
+SLIDERS = ['mrf_beta', 'reads ≥', 'corr >']
 # seed shown -> (run folder, id suffix); website is the seed and worker count the
 # MapMyCells website uses (11235 and 32), on the same 38 classes
 MAPMYCELLS_SEEDS = {'website': ('hard_seed11235_p32', '_seed11235')}
 # Seed 42 ('42': ('hard', '')) was on the page until 12 Nov 2026 with a Seed row of buttons;
 # taken off to keep it simple, the seed barely changes the totals and the agreement with pciSeq
 # (aang_mapmycells/sweep.py).
-# cell filter -> its button in the Filter row: value names the run's choice (and goes in its
-# label), group is the short name in front of a strip of buttons of the same kind, text is what
-# the button shows. Only one button of the row is picked at a time, the groups only sort them.
+# cell filter -> its option in the Filter row: value names the run's choice (and goes in its
+# label), group is the short name in front of the options of the same kind, text is what the
+# option shows. Only one option of the row is picked at a time, the groups only sort them.
+# No filter is reads >= 0, the left end of the reads slider (SLIDERS).
 READ_CUTS = [1, 3, 5, 7, 10]
 CORR_CUTS = ['0', '0.4']
-CELL_FILTERS = {None: {'value': 'none', 'group': '', 'text': 'none'}}
+CELL_FILTERS = {None: {'value': 'none', 'group': 'reads ≥', 'text': '0'}}
 for n in READ_CUTS:
     CELL_FILTERS[f'n{n}'] = {'value': f'reads ≥ {n}', 'group': 'reads ≥', 'text': str(n)}
 for cut in CORR_CUTS:
@@ -220,6 +224,8 @@ def unclassified_entry(counts, picture_path):
     reference = picture_name(min(present, key=lambda name: counts[colour_run][name]))
     return {
         'name': UNCLASSIFIED,
+        # not a class: the page keeps it at the end of the list whatever its count
+        'keepLast': True,
         'file': file_name,
         'colour': colour_of_picture(picture_path(colour_run, file_name), picture_path(colour_run, reference)),
         'cells': cells,
@@ -265,6 +271,7 @@ def main():
     data = {
         'controls': CONTROLS,
         'buttons': {'Filter': filter_buttons(counts)},
+        'sliders': SLIDERS,
         'runs': [{'id': run['id'], 'label': run['label'], 'choices': run['choices']} for run in RUNS],
         'pictureSize': {'width': picture_width, 'height': picture_height},
         'allClassesFile': ALL_CLASSES_FILE,
