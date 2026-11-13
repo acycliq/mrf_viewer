@@ -19,9 +19,9 @@ const ALL_CLASSES = {
 };
 const ENTRIES = [ALL_CLASSES, ...DATA.classes];
 
-// What the page shows now. choices holds the button picked in every row of the
+// What the page shows now. choices holds the option picked in every row of the
 // run picker, also in the rows hidden for the other method, so going back to a
-// method finds its buttons as they were left.
+// method finds its options as they were left.
 const selection = {
     entry: ALL_CLASSES,
     run: DATA.runs[0],
@@ -159,7 +159,26 @@ function buildClassList() {
 }
 
 /** Counts, dimming and the highlight, for the run and class picked. */
+/**
+ * The rows in the order shown: All classes first, then the classes by their
+ * count in the picked run, biggest first (same count: by name), and last the
+ * entries marked keepLast (the cells a filter left out).
+ */
+function orderedEntries() {
+    const runId = selection.run.id;
+    const classes = DATA.classes.filter(entry => !entry.keepLast);
+    classes.sort((a, b) => b.cells[runId] - a.cells[runId] || a.name.localeCompare(b.name));
+    return [ALL_CLASSES, ...classes, ...DATA.classes.filter(entry => entry.keepLast)];
+}
+
+/** Put the rows in the order of orderedEntries, the no-match note stays last. */
+function sortClassRows() {
+    const noMatch = document.getElementById('noMatch');
+    for (const entry of orderedEntries()) classList.insertBefore(entry.itemElement, noMatch);
+}
+
 function refreshClassRows() {
+    sortClassRows();
     for (const entry of ENTRIES) {
         const cells = entry.cells[selection.run.id];
         entry.countElement.textContent = cells.toLocaleString('en-GB');
@@ -183,10 +202,10 @@ function applyClassFilter() {
 // ---------------------------------------------------------------- the run picker
 
 /**
- * One row of buttons per control of DATA.controls (Method, mrf_beta, Seed,
- * Cells). Every run says which button it is in each row (run.choices), and a
+ * One row of radio buttons per control of DATA.controls (Method, mrf_beta,
+ * Filter). Every run says which option it is in each row (run.choices), and a
  * row is shown only when the runs of the picked method have it: pciSeq has
- * mrf_beta, MapMyCells has Seed and Cells.
+ * mrf_beta, MapMyCells has Filter.
  */
 
 /** The values of one control, in the order of the runs that have it. */
@@ -208,26 +227,91 @@ function runOf(choices) {
         Object.entries(run.choices).every(([control, value]) => choices[control] === value));
 }
 
-/** Text, tooltip and group of one button; data.js gives them for the Filter row only. */
-function buttonInfo(control, value) {
+/** Text, tooltip and group of one option; data.js gives them for the Filter row only. */
+function optionInfo(control, value) {
     const info = (DATA.buttons[control] || {})[value] || {};
-    return { text: info.text || value, title: info.title || '', group: info.group || '' };
+    return { value, text: info.text || value, title: info.title || '', group: info.group || '' };
 }
 
-function buildButton(control, value, info) {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.textContent = info.text;
-    button.title = info.title;
-    button.dataset.value = value;
-    button.addEventListener('click', () => selectChoice(control, value));
-    return button;
+/** The options of a control in runs of options with the same group, in order. */
+function groupsOf(control) {
+    const groups = [];
+    for (const value of valuesOf(control)) {
+        const info = optionInfo(control, value);
+        const last = groups[groups.length - 1];
+        if (last && last.name === info.group) last.options.push(info);
+        else groups.push({ name: info.group, options: [info] });
+    }
+    return groups;
+}
+
+/** One radio button with its text; the radios of a control share a name, so one is picked. */
+function buildRadio(control, info) {
+    const option = document.createElement('label');
+    option.className = 'run-control-option';
+    option.title = info.title;
+
+    const radio = document.createElement('input');
+    radio.type = 'radio';
+    radio.name = control;
+    radio.value = info.value;
+    radio.addEventListener('change', () => selectChoice(control, info.value));
+
+    const text = document.createElement('span');
+    text.textContent = info.text;
+
+    option.append(radio, text);
+    return option;
+}
+
+function buildRadios(control, options) {
+    const radios = document.createElement('div');
+    radios.className = 'run-control-options';
+    for (const info of options) radios.appendChild(buildRadio(control, info));
+    return radios;
 }
 
 /**
- * The control's name, then its buttons. Buttons of the same group (reads, corr)
- * share one strip with the group's name in front of it, so the kinds of filter
- * stand apart; it is still one row where one button is picked.
+ * A slider whose stops are the options, with their texts under it. Dragging it
+ * picks the option under the knob; the stops are evenly spaced, whatever the
+ * numbers on them.
+ */
+function buildSlider(control, options) {
+    const box = document.createElement('div');
+    box.className = 'run-control-slider';
+
+    const slider = document.createElement('input');
+    slider.type = 'range';
+    slider.min = 0;
+    slider.max = options.length - 1;
+    slider.step = 1;
+    slider.value = 0;    // the browser would start the knob in the middle
+    slider.dataset.control = control;
+    const pickUnderKnob = () => selectChoice(control, options[slider.value].value);
+    slider.addEventListener('input', pickUnderKnob);
+    // a click on a greyed slider picks the stop under its knob, even when the knob does not move
+    slider.addEventListener('click', pickUnderKnob);
+
+    const ticks = document.createElement('div');
+    ticks.className = 'run-control-ticks';
+    for (const info of options) {
+        const tick = document.createElement('span');
+        tick.textContent = info.text;
+        ticks.appendChild(tick);
+    }
+
+    // kept on the element so refreshRunPicker can set the knob and the tooltip
+    box.options = options;
+    box.slider = slider;
+    box.append(slider, ticks);
+    return box;
+}
+
+/**
+ * The control's name, then its options. Options of the same group (reads, corr)
+ * stand on a line of their own with the group's name in front; a group or control named in
+ * DATA.sliders is a slider, the others are radio buttons. It is still one row
+ * where one option is picked.
  */
 function buildControlRow(control) {
     const row = document.createElement('div');
@@ -238,24 +322,23 @@ function buildControlRow(control) {
     name.textContent = control;
     row.appendChild(name);
 
-    let strip = null;
-    let stripGroup = null;
-    for (const value of valuesOf(control)) {
-        const info = buttonInfo(control, value);
-        if (strip === null || info.group !== stripGroup) {
-            if (info.group) {
-                const group = document.createElement('span');
-                group.className = 'run-control-group';
-                group.textContent = info.group;
-                row.appendChild(group);
-            }
-            strip = document.createElement('div');
-            strip.className = 'run-control-buttons';
-            row.appendChild(strip);
-            stripGroup = info.group;
+    // each group on a line of its own, the lines under each other next to the name
+    const lines = document.createElement('div');
+    lines.className = 'run-control-lines';
+    for (const group of groupsOf(control)) {
+        const line = document.createElement('div');
+        line.className = 'run-control-line';
+        if (group.name) {
+            const label = document.createElement('span');
+            label.className = 'run-control-group';
+            label.textContent = group.name;
+            line.appendChild(label);
         }
-        strip.appendChild(buildButton(control, value, info));
+        const isSlider = DATA.sliders.includes(group.name || control);
+        line.appendChild(isSlider ? buildSlider(control, group.options) : buildRadios(control, group.options));
+        lines.appendChild(line);
     }
+    row.appendChild(lines);
     return row;
 }
 
@@ -272,10 +355,19 @@ function refreshRunPicker() {
     for (const row of runControls.children) {
         const control = row.dataset.control;
         row.hidden = !(control in selection.run.choices);
-        for (const button of row.querySelectorAll('button')) {
-            const picked = button.dataset.value === selection.choices[control];
-            button.classList.toggle('selected', picked);
-            button.setAttribute('aria-pressed', String(picked));
+        const picked = selection.choices[control];
+        for (const radio of row.querySelectorAll('input[type=radio]')) {
+            radio.checked = radio.value === picked;
+        }
+        // a slider whose options do not hold the pick (a corr filter is picked)
+        // is greyed, its knob stays where it was
+        for (const box of row.querySelectorAll('.run-control-slider')) {
+            const index = box.options.findIndex(info => info.value === picked);
+            box.classList.toggle('inactive', index < 0);
+            if (index < 0) continue;
+            box.slider.value = index;
+            box.title = box.options[index].title;
+            box.querySelectorAll('.run-control-ticks span').forEach((tick, i) => tick.classList.toggle('picked', i === index));
         }
     }
 }
@@ -326,7 +418,7 @@ function selectChoice(control, value) {
 
 /** Move the class selection up or down the rows the filter leaves visible. */
 function selectNeighbourEntry(step) {
-    const visible = ENTRIES.filter(entry => !entry.itemElement.hidden);
+    const visible = orderedEntries().filter(entry => !entry.itemElement.hidden);
     if (visible.length === 0) return;
     const current = visible.indexOf(selection.entry);
     const next = Math.min(visible.length - 1, Math.max(0, current + step));

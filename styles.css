@@ -294,8 +294,8 @@ img.layer { object-fit: contain; }
     border: 1px solid var(--drawer-border);
 }
 
-/* One row per control: its name, then its buttons joined in one strip, the
-   same look as the zoom buttons. */
+/* One row per control: its name, then plain radio buttons, the same as the
+   background channel switcher of pciSeq Viewer. */
 .run-picker {
     top: 14px;
     right: 16px;
@@ -308,39 +308,68 @@ img.layer { object-fit: contain; }
 }
 .run-control {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 10px;
 }
 .run-control[hidden] { display: none; }
 .run-control-name {
-    width: 62px;
+    width: 52px;
     color: var(--drawer-muted);
 }
-.run-control-group {
-    margin-left: 6px;
-    color: var(--drawer-muted);
-    white-space: nowrap;
-}
-.run-control-buttons {
+.run-control-lines {
     display: flex;
-    border: 1px solid var(--drawer-border);
-    border-radius: 6px;
-    overflow: hidden;
+    flex-direction: column;
+    gap: 8px;
 }
-.run-control-buttons button {
-    padding: 4px 8px;
-    font: inherit;
+/* Top-aligned, so the names sit level with the slider's track, its numbers hang below. */
+.run-control-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+/* The same width for every group name, so the sliders and radios of a row line up. */
+.run-control-group {
+    width: 44px;
     color: var(--drawer-muted);
     white-space: nowrap;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    transition: background 0.15s ease, color 0.15s ease;
 }
-.run-control-buttons button + button { border-left: 1px solid var(--drawer-border); }
-.run-control-buttons button:hover { color: var(--drawer-text); background: var(--drawer-accent-weak); }
-.run-control-buttons button:focus-visible { outline: none; color: var(--drawer-accent); }
-.run-control-buttons button.selected { color: var(--drawer-accent); background: var(--drawer-accent-selected); }
+.run-control-options {
+    display: flex;
+    gap: 10px;
+}
+.run-control-option {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.run-control-slider {
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+}
+.run-control-slider input {
+    margin: 0;
+    accent-color: var(--drawer-accent);
+    cursor: pointer;
+}
+/* The tick texts spread under the slider's stops; the knob's centre runs from
+   half a knob in from either end, hence the padding. */
+.run-control-ticks {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2px;
+    color: var(--drawer-muted);
+    font-size: 11px;
+}
+.run-control-ticks span.picked { color: var(--drawer-accent); }
+.run-control-slider.inactive { opacity: 0.4; }
+.run-control-option input {
+    margin: 0;
+    accent-color: var(--drawer-accent);
+    cursor: pointer;
+}
 
 /* The caption is the one thing that moves with the drawer, so the drawer never
    hides it (pciSeq Viewer does the same with its scale bar). */
