@@ -45,7 +45,8 @@ let latestRequest = 0;
 
 function pictureUrl(entry, run) {
     if (!entry.hasPicture[run.id]) return null;
-    return `images/${run.id}/${entry.file}`;
+    // the pictures are in a public bucket, a run's pictures under the run's id
+    return `${DATA.pictureBase}/${run.id}/${entry.file}`;
 }
 
 function fadeDurationMs() {
@@ -103,13 +104,15 @@ async function showSelectedPicture() {
 }
 
 /**
- * Load the selected class of every run in the background, so switching run
- * finds the picture already in the browser's cache.
+ * Load the selected class of the other runs of this data set in the background,
+ * so switching run finds the picture already in the browser's cache. The other
+ * data sets are left alone: a picture is about 1 MB and there are many runs.
  */
 function preloadOtherRuns() {
     for (const run of DATA.runs) {
+        if (run === selection.run || run.choices.Dataset !== selection.run.choices.Dataset) continue;
         const url = pictureUrl(selection.entry, run);
-        if (url !== null && run !== selection.run) new Image().src = url;
+        if (url !== null) new Image().src = url;
     }
 }
 
@@ -202,10 +205,10 @@ function applyClassFilter() {
 // ---------------------------------------------------------------- the run picker
 
 /**
- * One row of radio buttons per control of DATA.controls (Method, mrf_beta,
- * Filter). Every run says which option it is in each row (run.choices), and a
- * row is shown only when the runs of the picked method have it: pciSeq has
- * mrf_beta, MapMyCells has Filter.
+ * One row of radio buttons per control of DATA.controls (Dataset, Method,
+ * Inefficiency, mrf_beta, Filter). Every run says which option it is in each
+ * row (run.choices), and a row is shown only when the runs of the picked method
+ * have it: pciSeq has Inefficiency and mrf_beta, MapMyCells has Filter.
  */
 
 /** The values of one control, in the order of the runs that have it. */
@@ -221,10 +224,17 @@ function firstChoices() {
     return { ...choices, ...DATA.runs[0].choices };
 }
 
-/** The run whose every choice is the one picked. build_data.py checks there is always one. */
-function runOf(choices) {
-    return DATA.runs.find(run =>
-        Object.entries(run.choices).every(([control, value]) => choices[control] === value));
+/**
+ * The run for the choices picked, after `control` was set to `value`. Mostly
+ * that is the run whose every choice is the one picked. When there is none (a
+ * data set without MapMyCells, say), it is the run with that value that keeps
+ * the most of the other choices, the rows higher up counting for more.
+ */
+function runOf(choices, control, value) {
+    const kept = run => DATA.controls.reduce(
+        (score, name) => score * 2 + (run.choices[name] === choices[name] ? 1 : 0), 0);
+    const candidates = DATA.runs.filter(run => run.choices[control] === value);
+    return candidates.reduce((best, run) => (kept(run) > kept(best) ? run : best));
 }
 
 /** Text, tooltip and group of one option; data.js gives them for the Filter row only. */
@@ -413,7 +423,7 @@ function selectRun(run) {
 /** A button of the run picker: change that one choice and keep the others. */
 function selectChoice(control, value) {
     const choices = { ...selection.choices, [control]: value };
-    selectRun(runOf(choices));
+    selectRun(runOf(choices, control, value));
 }
 
 /** Move the class selection up or down the rows the filter leaves visible. */

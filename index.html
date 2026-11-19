@@ -6,11 +6,11 @@
 <title>Run comparison</title>
 <!--
   A small viewer for comparing cell typing runs on the same cells: pciSeq at
-  four mrf_beta values, and MapMyCells.
+  two Inefficiency and four mrf_beta values, and MapMyCells, for four data sets.
 
   It shows one picture at a time: the cells of one class (or of all classes),
   from all planes, for the run picked with the radio buttons at the top right. The pictures were
-  exported from pciSeq Viewer and live in images/<run id>/.
+  exported from pciSeq Viewer and live in a public Google Cloud bucket, see build_data.py.
 
   Files:
     index.html      this page: the layout only
@@ -21,13 +21,14 @@
     drawer.js       opening and hiding the drawer, and resizing the class list
     app.js          the class list, the run picker and the fade between pictures
     build_data.py   rebuilds data.js from the pictures and the runs
-    images/         one folder of pictures per run
+    images/         the pictures of the page before 19 Nov 2026, not used any more
 
   The scripts are plain scripts, not modules, because a browser refuses to load
   modules from a page opened straight from the disk. They are loaded in the
   order below: app.js uses what the three before it define.
 
-  Open index.html straight from the disk; no server is needed.
+  Open index.html straight from the disk; no server is needed, but the pictures
+  come from the bucket, so it needs the network.
 -->
 <link rel="stylesheet" href="styles.css">
 </head>

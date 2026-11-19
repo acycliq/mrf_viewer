@@ -313,7 +313,7 @@ img.layer { object-fit: contain; }
 }
 .run-control[hidden] { display: none; }
 .run-control-name {
-    width: 52px;
+    width: 70px;   /* fits the longest name, Inefficiency */
     color: var(--drawer-muted);
 }
 .run-control-lines {

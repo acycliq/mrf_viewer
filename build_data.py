@@ -5,7 +5,13 @@ exist, and it reads each class's colour off its picture. The result is
 written as a JavaScript file, not JSON, so index.html can load it with a plain
 <script> tag when opened straight from the disk.
 
-Run it again whenever the pictures in images/ or the runs change:
+The pictures are not in this repo. The page loads them from a public Google
+Cloud bucket (PICTURE_BASE), where a run's pictures sit under the run's id.
+This script reads the same pictures from the disk they were exported to, so
+that disk has to be there when it runs. To put new pictures in the bucket:
+    gcloud storage rsync -r <dataset>/class_pictures gs://mrf_viewer/<dataset>/pciseq
+
+Run it again whenever the pictures or the runs change:
     python3 build_data.py
 """
 import ast
@@ -20,19 +26,26 @@ import numpy as np
 from PIL import Image
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-PCISEQ_RUNS = os.path.expanduser('~/pciseq_runs/aang')
-MAPMYCELLS_RUNS = os.path.expanduser('~/dev/python/aang_mapmycells/runs')
+# where the page gets the pictures from: PICTURE_BASE/<run id>/<class>.webp
+PICTURE_BASE = 'https://storage.googleapis.com/mrf_viewer'
+# the pciSeq runs and their pictures, one folder per data set
+PCISEQ_RUNS = '/run/media/dimitris/Sabrent4TB/users/Izzie/pciseq_runs'
+DATASETS = ['aang', 'katara', 'sokka', 'toph']
+# MapMyCells per data set: where its cellData.tsv is, and the folder with one
+# folder of pictures per cell filter ('all' for no filter, then 'n1', 'corr0', ...).
+# A data set that is not in here has no MapMyCells on the page. Empty for now:
+# the old aang pictures were made from a run that still had Kcnd3 in, the new
+# ones are not exported yet. Fill it in as they come, e.g.
+#   'aang': {'cellData': '.../cellData.tsv', 'pictures': '.../mapmycells_pictures'}
+# and put the pictures in the bucket under <dataset>/mapmycells/.
+MAPMYCELLS = {}
 
 
-def mapmycells_cell_data(folder):
-    return os.path.join(MAPMYCELLS_RUNS, 'yao38', folder, 'cellData.tsv')
+def pciseq_folder(inefficiency, beta):
+    return os.path.join('inefficiency_' + inefficiency, 'mrf_beta_' + beta)
 
 
-def pciseq_cell_data(beta):
-    return os.path.join(PCISEQ_RUNS, 'mrf_beta_' + beta, 'pciSeq', 'data', 'tsv', 'cellData.tsv')
-
-
-# The runs. id is also the folder of the run's pictures, images/<id>/. choices
+# The runs. id is also the folder of the run's pictures in the bucket. choices
 # places the run in the picker: one row of buttons per control (CONTROLS), and a
 # row shows only for the method whose runs have that control. pick says which
 # class of a cell's ClassName list is the cell's class: pciSeq lists them in no
@@ -43,15 +56,14 @@ def pciseq_cell_data(beta):
 # only cells whose Corr in MapMyCells' cellData is above X (0 drops exactly the
 # tool's default calls, 0.4 is the cut Allen's notebooks use), n<N> = only cells
 # with at least N reads.
-CONTROLS = ['Method', 'mrf_beta', 'Filter']
+CONTROLS = ['Dataset', 'Method', 'Inefficiency', 'mrf_beta', 'Filter']
+INEFFICIENCIES = ['0.1', '0.5']
 MRF_BETAS = ['0.0', '0.5', '1.0', '1.5']
 # Drawn as a slider instead of radio buttons: a whole control (mrf_beta) or one group of the
 # Filter row (reads, corr). The rest are radio buttons.
 SLIDERS = ['mrf_beta', 'reads ≥', 'corr >']
-# seed shown -> (run folder, id suffix); website is the seed and worker count the
-# MapMyCells website uses (11235 and 32), on the same 38 classes
-MAPMYCELLS_SEEDS = {'website': ('hard_seed11235_p32', '_seed11235')}
-# Seed 42 ('42': ('hard', '')) was on the page until 12 Nov 2026 with a Seed row of buttons;
+# MapMyCells is the run with the seed and worker count its website uses (11235 and 32), on
+# the same 38 classes. Seed 42 was on the page until 12 Nov 2026 with a Seed row of buttons;
 # taken off to keep it simple, the seed barely changes the totals and the agreement with pciSeq
 # (aang_mapmycells/sweep.py).
 # cell filter -> its option in the Filter row: value names the run's choice (and goes in its
@@ -67,62 +79,71 @@ for cut in CORR_CUTS:
     CELL_FILTERS['corr' + cut] = {'value': f'corr > {cut}', 'group': 'corr >', 'text': cut}
 
 
-def filter_title(cell_filter, left_out):
-    """The tooltip of a Filter button, in plain words."""
+def filter_title(cell_filter):
+    """The tooltip of a Filter button, in plain words.
+
+    How many cells a filter leaves out differs per data set, so it is not in
+    here; the last row of the class list shows it for the run picked.
+    """
     if cell_filter is None:
         return 'every cell, none left out'
-    left = f' ({left_out:,} left out)'
     if cell_filter.startswith('n'):
         n = int(cell_filter[1:])
-        return f'only cells with at least {n} read' + ('' if n == 1 else 's') + left
+        return f'only cells with at least {n} read' + ('' if n == 1 else 's')
     if cell_filter == 'corr0':
-        return 'only cells MapMyCells could match, correlation above 0; the others got its default call' + left
-    return f'only cells MapMyCells matched well, correlation above {cell_filter[4:]}, the cut Allen uses' + left
+        return 'only cells MapMyCells could match, correlation above 0; the others got its default call'
+    return f'only cells MapMyCells matched well, correlation above {cell_filter[4:]}, the cut Allen uses'
 
 
-def pciseq_run(beta):
-    return {'id': 'mrf_beta_' + beta, 'label': 'pciSeq, mrf_beta ' + beta,
-            'choices': {'Method': 'pciSeq', 'mrf_beta': beta},
-            'cellData': pciseq_cell_data(beta), 'pick': 'most_likely'}
+def pciseq_run(dataset, inefficiency, beta):
+    folder = pciseq_folder(inefficiency, beta)
+    return {'id': f'{dataset}/pciseq/{folder}', 'dataset': dataset,
+            'label': f'{dataset}, pciSeq, Inefficiency {inefficiency}, mrf_beta {beta}',
+            'choices': {'Dataset': dataset, 'Method': 'pciSeq', 'Inefficiency': inefficiency, 'mrf_beta': beta},
+            'cellData': os.path.join(PCISEQ_RUNS, dataset, folder, 'pciSeq', 'data', 'tsv', 'cellData.tsv'),
+            'pictures': os.path.join(PCISEQ_RUNS, dataset, 'class_pictures', folder),
+            'pick': 'most_likely'}
 
 
-# markers -> the Method button. allen = Allen's marker list. The runs with every panel gene as a
-# marker (aang_mapmycells/make_panel_markers.py, 'panel', hard_panel* folders) were on the page
-# until 12 Nov 2026 and were taken off to keep it simple; add 'panel' here to bring them back.
-MAPMYCELLS_MARKERS = {'allen': 'MapMyCells'}
-
-
-def mapmycells_run(markers, seed, cell_filter):
-    folder, suffix = MAPMYCELLS_SEEDS[seed]
-    if markers == 'panel':
-        folder = folder.replace('hard', 'hard_panel')
-        suffix = '_panel' + suffix
-    method = MAPMYCELLS_MARKERS[markers]
+def mapmycells_run(dataset, cell_filter):
+    """MapMyCells with Allen's marker list. The runs with every panel gene as a marker
+    (aang_mapmycells/make_panel_markers.py) were on the page until 12 Nov 2026 and were
+    taken off to keep it simple."""
+    folder = cell_filter or 'all'
     value = CELL_FILTERS[cell_filter]['value']
-    return {'id': 'mapmycells_yao38_hard' + suffix + ('_' + cell_filter if cell_filter else ''),
-            'label': method + ', yao38 hard, ' + ('seed 42' if seed == '42' else 'website seed') +
-                     ('' if cell_filter is None else ', ' + value),
-            'choices': {'Method': method, 'Filter': value},
-            'cellData': mapmycells_cell_data(folder), 'pick': 'first', 'cell_filter': cell_filter}
+    return {'id': f'{dataset}/mapmycells/{folder}', 'dataset': dataset,
+            'label': f'{dataset}, MapMyCells' + ('' if cell_filter is None else ', ' + value),
+            'choices': {'Dataset': dataset, 'Method': 'MapMyCells', 'Filter': value},
+            'cellData': MAPMYCELLS[dataset]['cellData'],
+            'pictures': os.path.join(MAPMYCELLS[dataset]['pictures'], folder),
+            'pick': 'first', 'cell_filter': cell_filter}
 
 
-RUNS = ([pciseq_run(beta) for beta in MRF_BETAS] +
-        [mapmycells_run(markers, seed, cell_filter)
-         for markers in MAPMYCELLS_MARKERS for cell_filter in CELL_FILTERS for seed in MAPMYCELLS_SEEDS])
+# Per data set: the pciSeq runs, then MapMyCells where there is one. The first
+# run of a data set keeps every cell; the filtered runs are counted against it.
+RUNS = []
+for dataset in DATASETS:
+    RUNS += [pciseq_run(dataset, inefficiency, beta) for inefficiency in INEFFICIENCIES for beta in MRF_BETAS]
+    if dataset in MAPMYCELLS:
+        RUNS += [mapmycells_run(dataset, cell_filter) for cell_filter in CELL_FILTERS]
 RUN_IDS = [run['id'] for run in RUNS]
 
 
 def check_every_combination():
-    """Every mix of a method's buttons must be a run, or a click on the page finds none."""
-    for method in {run['choices']['Method'] for run in RUNS}:
-        runs = [run for run in RUNS if run['choices']['Method'] == method]
+    """Within a data set, every mix of a method's buttons must be a run.
+
+    A data set may lack a method (no MapMyCells yet); the page then moves to
+    the nearest run it does have. A hole inside a method would be a mistake here.
+    """
+    for dataset, method in {(run['dataset'], run['choices']['Method']) for run in RUNS}:
+        runs = [run for run in RUNS if run['dataset'] == dataset and run['choices']['Method'] == method]
         controls = [control for control in CONTROLS if control in runs[0]['choices']]
         combinations = {tuple(run['choices'][control] for control in controls) for run in runs}
         expected = 1
         for control in controls:
             expected *= len({run['choices'][control] for run in runs})
         if len(combinations) != expected or len(runs) != expected:
-            raise ValueError(f'{method}: {len(runs)} runs, but its buttons make {expected} combinations')
+            raise ValueError(f'{dataset}, {method}: {len(runs)} runs, but its buttons make {expected} combinations')
 ALL_CLASSES_FILE = 'All_classes.webp'
 # Two class pictures share the same DAPI background, so the pixels where they
 # differ by more than this (summed over red, green and blue) are cells.
@@ -192,17 +213,15 @@ def colour_of_picture(path, reference_path):
     return '#%02x%02x%02x' % (red, green, blue)
 
 
-def filter_buttons(counts):
+def filter_buttons():
     """Group, text and tooltip of each Filter button, keyed by the run's choice."""
-    all_cells = sum(counts[RUN_IDS[0]].values())
     buttons = {}
     for run in RUNS:
         if 'Filter' not in run['choices']:
             continue
         cell_filter = run['cell_filter']
-        left_out = all_cells - sum(counts[run['id']].values())
         button = dict(CELL_FILTERS[cell_filter])
-        button['title'] = filter_title(cell_filter, left_out)
+        button['title'] = filter_title(cell_filter)
         buttons[button.pop('value')] = button
     return buttons
 
@@ -212,16 +231,21 @@ def unclassified_entry(counts, picture_path):
 
     The viewer draws a mask it has no cell row for as class Unknown, so a
     filtered run's export has Unknown.png with exactly these cells. The first
-    run keeps every cell, the others are counted against it.
+    run of a data set keeps every cell, its other runs are counted against it.
+    Returns None when no run leaves a cell out, so the row is not shown.
     """
-    all_cells = sum(counts[RUN_IDS[0]].values())
-    cells = {run_id: all_cells - sum(counts[run_id].values()) for run_id in RUN_IDS}
+    all_cells = {}
+    for run in RUNS:
+        all_cells.setdefault(run['dataset'], sum(counts[run['id']].values()))
+    cells = {run['id']: all_cells[run['dataset']] - sum(counts[run['id']].values()) for run in RUNS}
     file_name = picture_name('Unknown')
     # The colour comes off the first run that has the picture, against the
     # smallest class that run still has.
-    colour_run = next(run_id for run_id in RUN_IDS if cells[run_id] > 0)
-    present = [name for name, count in counts[colour_run].items() if count > 0]
-    reference = picture_name(min(present, key=lambda name: counts[colour_run][name]))
+    colour_run = next((run for run in RUNS if cells[run['id']] > 0), None)
+    if colour_run is None:
+        return None
+    present = [name for name, count in counts[colour_run['id']].items() if count > 0]
+    reference = picture_name(min(present, key=lambda name: counts[colour_run['id']][name]))
     return {
         'name': UNCLASSIFIED,
         # not a class: the page keeps it at the end of the list whatever its count
@@ -229,7 +253,7 @@ def unclassified_entry(counts, picture_path):
         'file': file_name,
         'colour': colour_of_picture(picture_path(colour_run, file_name), picture_path(colour_run, reference)),
         'cells': cells,
-        'hasPicture': {run_id: os.path.exists(picture_path(run_id, file_name)) for run_id in RUN_IDS},
+        'hasPicture': {run['id']: os.path.exists(picture_path(run, file_name)) for run in RUNS},
     }
 
 
@@ -241,13 +265,13 @@ def main():
     class_names = sorted(set().union(*counts.values()),
                          key=lambda name: (-counts[RUN_IDS[0]][name], name))
 
-    def picture_path(run_id, file_name):
-        return os.path.join(HERE, 'images', run_id, file_name)
+    def picture_path(run, file_name):
+        return os.path.join(run['pictures'], file_name)
 
     # The colours are read off the first run, where every class has a picture.
     # Each class is compared with the smallest class, and the smallest class
     # with the one before it.
-    colour_run = RUN_IDS[0]
+    colour_run = RUNS[0]
     smallest = picture_name(class_names[-1])
     second_smallest = picture_name(class_names[-2])
 
@@ -261,16 +285,20 @@ def main():
             'colour': colour_of_picture(picture_path(colour_run, file_name),
                                         picture_path(colour_run, reference)),
             'cells': {run_id: counts[run_id][name] for run_id in RUN_IDS},
-            'hasPicture': {run_id: os.path.exists(picture_path(run_id, file_name)) for run_id in RUN_IDS},
+            'hasPicture': {run['id']: os.path.exists(picture_path(run, file_name)) for run in RUNS},
         })
-    classes.append(unclassified_entry(counts, picture_path))
+    unclassified = unclassified_entry(counts, picture_path)
+    if unclassified is not None:
+        classes.append(unclassified)
 
-    # Every picture has the same size; the page needs it to fit the picture to the window.
-    picture_width, picture_height = Image.open(picture_path(RUN_IDS[0], ALL_CLASSES_FILE)).size
+    # The page fits the picture to the window with this size. The data sets differ by a few
+    # pixels (1430 to 1438 wide); the page keeps each picture's own shape inside this one.
+    picture_width, picture_height = Image.open(picture_path(RUNS[0], ALL_CLASSES_FILE)).size
 
     data = {
+        'pictureBase': PICTURE_BASE,
         'controls': CONTROLS,
-        'buttons': {'Filter': filter_buttons(counts)},
+        'buttons': {'Filter': filter_buttons()},
         'sliders': SLIDERS,
         'runs': [{'id': run['id'], 'label': run['label'], 'choices': run['choices']} for run in RUNS],
         'pictureSize': {'width': picture_width, 'height': picture_height},
@@ -282,9 +310,6 @@ def main():
         handle.write('// Written by build_data.py. Do not edit by hand.\n')
         handle.write('window.BETA_VIEWER_DATA = ' + json.dumps(data, indent=1) + ';\n')
 
-    for entry in classes:
-        print('%-28s %s  %s' % (entry['name'], entry['colour'],
-                                '  '.join('%6d' % entry['cells'][run_id] for run_id in RUN_IDS)))
     for run_id in RUN_IDS:
         mismatched = [c['name'] for c in classes if (c['cells'][run_id] > 0) != c['hasPicture'][run_id]]
         print('%s: %d cells, classes whose count and picture disagree: %s'
