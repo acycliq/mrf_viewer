@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Regions check</title>
+<!--
+  The second page of the run comparison viewer: the cell typing checked against
+  anatomy. The region and layer outlines were drawn by hand (regions/), and an
+  excitatory cell has a home region, so the region a cell is in says which class
+  it should be. build_regions.py counts the cells of each class in each region for
+  every run and writes regions_data.js; regions.js draws the page from those counts.
+
+  Like index.html it opens straight from the disk, no server needed.
+-->
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="regions.css">
+</head>
+<body class="regions-page">
+
+<nav class="page-tabs" aria-label="Pages">
+    <a href="index.html">Classes</a>
+    <a href="regions.html" class="current">Regions</a>
+</nav>
+
+<main class="regions-main">
+    <header class="regions-header">
+        <h1>Cell classes per region</h1>
+        <div class="regions-controls">
+            <label>Data set <select id="datasetPicker"></select></label>
+            <span class="regions-filter" id="filterPicker" role="group" aria-label="Cell filter"></span>
+        </div>
+    </header>
+
+    <section class="regions-section">
+        <h2>Region accuracy</h2>
+        <p class="regions-note">
+            Each bar is one run, split by what the cells inside the region were called.
+            Green is the class the region should have, red another excitatory class,
+            then inhibitory, non-neuronal and Zero. The number on the right is green out of
+            green plus red: of the cells called excitatory, the share called the right class.
+            Strict: L4/5 IT in L5 counts as wrong, and L5 IT in L4/5 too.
+        </p>
+        <p class="regions-note">
+            The filter at the top changes every part of the page. A reads filter goes on every
+            run. A corr filter needs the correlation MapMyCells gives each cell, so it goes on
+            the MapMyCells runs only; the pciSeq runs then keep every cell and say "(every cell)".
+            corr &gt; 0 drops the cells MapMyCells had nothing to match on (no marker reads), which
+            it still gives a class, mostly 004 L6 IT.
+        </p>
+        <div class="legend" id="accuracyLegend"></div>
+        <div id="accuracyChart" class="accuracy-chart"></div>
+    </section>
+
+    <section class="regions-section">
+        <h2>Class placement</h2>
+        <p class="regions-note">
+            Turned round: of all the cells a run called this class, anywhere in the picture,
+            the share inside the class's own region. Cells near a region's edge, or in a
+            layer that has no outline yet (stratum oriens, the white matter), count against it.
+        </p>
+        <div id="placementTable"></div>
+    </section>
+
+    <section class="regions-section">
+        <h2>Heatmap</h2>
+        <p class="regions-note">
+            One row per region: how its cells split over the classes, as a share of the
+            region's cells. The squares with a white edge are the classes the region should
+            have. Pick a run on each side to compare them.
+        </p>
+        <div class="heatmap-pair">
+            <div><select id="heatmapLeft"></select><div id="heatmapLeftTable"></div></div>
+            <div><select id="heatmapRight"></select><div id="heatmapRightTable"></div></div>
+        </div>
+    </section>
+</main>
+
+<script src="regions_data.js"></script>
+<script src="regions.js"></script>
+</body>
+</html>

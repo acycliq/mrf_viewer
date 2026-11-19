@@ -1,0 +1,123 @@
+/* The regions page (regions.html), on top of styles.css for the palette and font. */
+
+/* styles.css stops the main page from scrolling; this page is long and scrolls. */
+body.regions-page { overflow: auto; height: auto; }
+
+/* The tabs between the two pages, also on index.html. */
+.page-tabs {
+    position: fixed;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    display: flex;
+    background: rgba(17, 17, 17, 0.88);
+    border: 1px solid var(--drawer-border);
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 12px;
+}
+.page-tabs a {
+    padding: 6px 14px;
+    color: var(--drawer-muted);
+    text-decoration: none;
+}
+.page-tabs a:hover { color: var(--drawer-text); }
+.page-tabs a.current { color: var(--drawer-text); background: var(--drawer-accent-selected); }
+
+.regions-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 64px 16px 48px;
+}
+.regions-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+.regions-header h1 { font-size: 20px; font-weight: 600; margin: 0; }
+.regions-controls { display: flex; gap: 16px; align-items: center; font-size: 12px; color: var(--drawer-muted); }
+.regions-controls select,
+.heatmap-pair select {
+    background: var(--drawer-surface);
+    color: var(--drawer-text);
+    border: 1px solid var(--drawer-border);
+    border-radius: 4px;
+    padding: 3px 6px;
+    font: inherit;
+    font-size: 12px;
+}
+.regions-filter { display: flex; flex-direction: column; gap: 4px; }
+.filter-group { display: flex; gap: 10px; align-items: center; }
+.filter-group-name { width: 48px; color: var(--drawer-muted); }
+.regions-filter label { display: flex; gap: 4px; align-items: center; color: var(--drawer-text); cursor: pointer; }
+.regions-filter input { accent-color: var(--drawer-accent); margin: 0; }
+
+.regions-section {
+    margin-top: 28px;
+    padding: 16px;
+    background: var(--drawer-bg);
+    border: 1px solid var(--drawer-border);
+    border-radius: 8px;
+}
+.regions-section h2 { font-size: 15px; font-weight: 600; margin: 0 0 6px; }
+.regions-note { font-size: 12px; line-height: 1.5; color: var(--drawer-muted); margin: 0 0 12px; max-width: 820px; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; margin-bottom: 12px; color: var(--drawer-muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 12px; height: 12px; border-radius: 2px; display: inline-block; }
+
+/* Region accuracy: a block per region, a stacked bar per run. */
+.accuracy-chart {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 18px 28px;
+}
+.accuracy-region h3 { font-size: 13px; font-weight: 600; margin: 0 0 6px; }
+.accuracy-region h3 small { font-weight: 400; color: var(--drawer-muted); margin-left: 6px; }
+.accuracy-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 44px;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    margin-bottom: 3px;
+}
+.accuracy-row .run-name { color: var(--drawer-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.accuracy-row .score { text-align: right; font-variant-numeric: tabular-nums; color: var(--drawer-text); font-weight: 600; }
+.stack { display: flex; height: 14px; border-radius: 3px; overflow: hidden; background: var(--drawer-surface); }
+.stack div { height: 100%; }
+
+/* Class placement and heatmap tables. */
+.regions-table { border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
+.regions-table th, .regions-table td { padding: 4px 8px; text-align: right; border-bottom: 1px solid var(--drawer-border); }
+.regions-table th { color: var(--drawer-muted); font-weight: 500; }
+.regions-table th:first-child, .regions-table td:first-child { text-align: left; }
+.regions-table td small { color: var(--drawer-muted); margin-left: 4px; }
+.class-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+.table-scroll { overflow-x: auto; }
+
+.heatmap-pair { display: grid; grid-template-columns: 1fr; gap: 20px; }
+.heatmap-pair select { margin-bottom: 8px; }
+.heatmap { border-collapse: collapse; font-size: 11px; }
+.heatmap th { color: var(--drawer-muted); font-weight: 500; padding: 2px; }
+.heatmap th.col {
+    height: 120px;
+    white-space: nowrap;
+    vertical-align: bottom;
+}
+.heatmap th.col span { display: inline-block; writing-mode: vertical-rl; transform: rotate(180deg); }
+.heatmap th.row { text-align: left; padding-right: 8px; white-space: nowrap; }
+.heatmap td {
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    text-align: center;
+    font-size: 9px;
+    color: #000000;
+    border: 1px solid #000000;
+}
+.heatmap td.expected { outline: 2px solid #ffffff; outline-offset: -2px; }
+.heatmap th.group-start, .heatmap td.group-start { border-left: 2px solid var(--drawer-muted); }
