@@ -40,6 +40,14 @@ DATASETS = ['aang', 'katara', 'sokka', 'toph']
 # <dataset>/mapmycells/<markers>/<filter>/:
 #     gcloud storage rsync -r <dataset>/class_pictures gs://mrf_viewer/<dataset>/mapmycells
 MAPMYCELLS = '/run/media/dimitris/Sabrent4TB/users/Izzie/MapMyCells'
+# Region and layer boundaries drawn by hand in pciSeq Viewer and saved from there as
+# geojson, in the image's pixels. image is the size of the whole image in pixels
+# (width, height), the masks are (planes, height, width): the pictures cover exactly
+# that, so the page can lay the outlines over them. A data set not in here has no
+# Regions row on the page.
+REGIONS = {
+    'aang': {'geojson': os.path.join(HERE, 'regions', 'aang.geojson'), 'image': (6432, 8545)},
+}
 MARKERS = ['allen', 'panel']
 MARKER_NAMES = {'allen': 'Allen', 'panel': 'panel'}
 
@@ -259,6 +267,22 @@ def unclassified_entry(counts, picture_path):
     }
 
 
+def regions_of(dataset):
+    """The outlines of a data set's regions: each region's name and the points of
+    its outer ring. A region in two pieces (DG) is two entries with the same name."""
+    with open(REGIONS[dataset]['geojson']) as handle:
+        features = json.load(handle)['features']
+    regions = []
+    for feature in features:
+        geometry = feature['geometry']
+        polygons = [geometry['coordinates']] if geometry['type'] == 'Polygon' else geometry['coordinates']
+        for polygon in polygons:
+            points = [[round(x, 1), round(y, 1)] for x, y in polygon[0]]
+            regions.append({'name': feature['properties']['name'], 'points': points})
+    width, height = REGIONS[dataset]['image']
+    return {'width': width, 'height': height, 'regions': regions}
+
+
 def main():
     check_every_combination()
     counts = {run['id']: cells_per_class(run) for run in RUNS}
@@ -309,6 +333,7 @@ def main():
         'allClassesFile': ALL_CLASSES_FILE,
         'totalCells': {run_id: sum(counts[run_id].values()) for run_id in RUN_IDS},
         'classes': classes,
+        'regions': {dataset: regions_of(dataset) for dataset in REGIONS},
     }
     with open(os.path.join(HERE, 'data.js'), 'w') as handle:
         handle.write('// Written by build_data.py. Do not edit by hand.\n')

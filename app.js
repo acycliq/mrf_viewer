@@ -118,6 +118,167 @@ function preloadOtherRuns() {
 }
 
 
+// ---------------------------------------------------------------- the regions
+
+// Shown or not, for every data set alike; off at the start.
+let regionsShown = false;
+const SVG_NS = 'http://www.w3.org/2000/svg';
+// one colour per region name, so the two pieces of DG match
+const REGION_COLOURS = ['#66c2a5', '#fc8d62', '#8da0cb', '#e78ac3', '#a6d854', '#ffd92f', '#e5c494', '#b3b3b3'];
+// in the image's pixels, so the names grow with the zoom
+const LABEL_FONT_SIZE = 220;
+// the names of the cortical layers are lined up at this x, as a share of the image's width
+const LAYER_LABEL_X = 0.09;
+
+function pointInRing(x, y, points) {
+    let inside = false;
+    for (let i = 0, j = points.length - 1; i < points.length; j = i++) {
+        const [xi, yi] = points[i];
+        const [xj, yj] = points[j];
+        if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) inside = !inside;
+    }
+    return inside;
+}
+
+function distanceToRing(x, y, points) {
+    let best = Infinity;
+    for (let i = 0, j = points.length - 1; i < points.length; j = i++) {
+        const [x1, y1] = points[j];
+        const [x2, y2] = points[i];
+        const dx = x2 - x1, dy = y2 - y1;
+        const t = Math.max(0, Math.min(1, ((x - x1) * dx + (y - y1) * dy) / (dx * dx + dy * dy || 1)));
+        best = Math.min(best, Math.hypot(x - (x1 + t * dx), y - (y1 + t * dy)));
+    }
+    return best;
+}
+
+/**
+ * Where a region's name goes: the point of a grid over the region that is
+ * furthest from its edge. The middle of the points would fall outside a curved
+ * band like CA1.
+ */
+function labelPoint(points) {
+    const xs = points.map(p => p[0]);
+    const ys = points.map(p => p[1]);
+    const [xMin, xMax, yMin, yMax] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
+    const steps = 60;
+    let best = { x: (xMin + xMax) / 2, y: (yMin + yMax) / 2, d: -1 };
+    for (let i = 0; i <= steps; i++) {
+        for (let j = 0; j <= steps; j++) {
+            const x = xMin + (xMax - xMin) * i / steps;
+            const y = yMin + (yMax - yMin) * j / steps;
+            if (!pointInRing(x, y, points)) continue;
+            const d = distanceToRing(x, y, points);
+            if (d > best.d) best = { x, y, d };
+        }
+    }
+    return best;
+}
+
+/** Where a layer's name goes: at the given x, halfway down the layer there. */
+function layerLabelPoint(points, x) {
+    const ys = points.map(p => p[1]);
+    const [yMin, yMax] = [Math.min(...ys), Math.max(...ys)];
+    const steps = 400;
+    const inside = [];
+    for (let j = 0; j <= steps; j++) {
+        const y = yMin + (yMax - yMin) * j / steps;
+        if (pointInRing(x, y, points)) inside.push(y);
+    }
+    if (inside.length === 0) return labelPoint(points);
+    return { x, y: (inside[0] + inside[inside.length - 1]) / 2 };
+}
+
+/**
+ * The outlines of a data set's regions as an svg in the image's pixels. It
+ * fills the viewport like the pictures do, and xMidYMid meet places it the same
+ * way object-fit: contain places a picture, so the outlines sit on the cells.
+ */
+function buildRegionsOverlay(dataset) {
+    const info = DATA.regions[dataset];
+    const svg = document.createElementNS(SVG_NS, 'svg');
+    svg.setAttribute('class', 'regions-overlay');
+    svg.setAttribute('viewBox', `0 0 ${info.width} ${info.height}`);
+    svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    const names = [...new Set(info.regions.map(region => region.name))];
+    const labels = [];
+    for (const region of info.regions) {
+        const colour = REGION_COLOURS[names.indexOf(region.name) % REGION_COLOURS.length];
+        const outline = document.createElementNS(SVG_NS, 'polygon');
+        outline.setAttribute('points', region.points.map(p => p.join(',')).join(' '));
+        outline.setAttribute('stroke', colour);
+        svg.appendChild(outline);
+
+        labels.push({ name: region.name, colour, points: region.points });
+    }
+    // the names go on top of every outline
+    for (const { name, points } of labels) {
+        // the cortical layers are bands across the whole picture: their names all go
+        // in a column near the left edge, so they read top to bottom
+        const isLayer = /^L\d/.test(name);
+        const where = isLayer ? layerLabelPoint(points, info.width * LAYER_LABEL_X) : labelPoint(points);
+        const text = document.createElementNS(SVG_NS, 'text');
+        text.setAttribute('class', 'region-label');
+        text.setAttribute('x', where.x);
+        text.setAttribute('y', where.y);
+        text.setAttribute('font-size', LABEL_FONT_SIZE);
+        text.textContent = name;
+        svg.appendChild(text);
+    }
+    return svg;
+}
+
+/** Put the outlines of the picked data set over the picture, or take them away. */
+function refreshRegions() {
+    const dataset = selection.run.choices.Dataset;
+    const has = dataset in DATA.regions;
+    regionsRow.hidden = !has;
+    for (const radio of regionsRow.querySelectorAll('input')) radio.checked = (radio.value === 'on') === regionsShown;
+
+    const old = viewport.querySelector('.regions-overlay');
+    const wanted = has && regionsShown;
+    if (old && (!wanted || old.dataset.dataset !== dataset)) old.remove();
+    if (wanted && !viewport.querySelector('.regions-overlay')) {
+        const overlay = buildRegionsOverlay(dataset);
+        overlay.dataset.dataset = dataset;
+        viewport.appendChild(overlay);
+    }
+}
+
+/** The Regions row of the run picker: Off or On. Not a run choice, it only draws over the picture. */
+function buildRegionsRow() {
+    const row = document.createElement('div');
+    row.className = 'run-control';
+    const name = document.createElement('span');
+    name.className = 'run-control-name';
+    name.textContent = 'Regions';
+    row.appendChild(name);
+    const options = [
+        { value: 'off', text: 'Off', title: 'no region outlines' },
+        { value: 'on', text: 'On', title: 'the region and layer outlines drawn by hand on this data set' },
+    ];
+    const radios = document.createElement('div');
+    radios.className = 'run-control-options';
+    for (const info of options) {
+        const option = document.createElement('label');
+        option.className = 'run-control-option';
+        option.title = info.title;
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'Regions';
+        radio.value = info.value;
+        radio.addEventListener('change', () => { regionsShown = info.value === 'on'; refreshRegions(); });
+        const text = document.createElement('span');
+        text.textContent = info.text;
+        option.append(radio, text);
+        radios.appendChild(option);
+    }
+    row.appendChild(radios);
+    runControls.appendChild(row);
+    return row;
+}
+
+
 // ---------------------------------------------------------------- the drawer
 
 function buildClassRow(entry) {
@@ -404,6 +565,7 @@ function refreshEverything() {
     refreshRunPicker();
     refreshClassRows();
     refreshCaption();
+    refreshRegions();
     showSelectedPicture();
     preloadOtherRuns();
 }
@@ -474,6 +636,7 @@ function handleKey(event) {
 
 buildClassList();
 buildRunPicker();
+const regionsRow = buildRegionsRow();
 setupZoomButtons();
 setupDrawerToggle(document.getElementById('drawer'), document.getElementById('drawerRail'));
 setupResizableList(classList, document.getElementById('classListResizeHandle'));

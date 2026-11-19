@@ -269,6 +269,34 @@ html, body {
     -webkit-user-drag: none;
 }
 .layer.shown { opacity: 1; }
+
+/* The region outlines, over every picture layer whatever order they were added in.
+   The lines keep their width on screen when zooming. */
+.regions-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+.regions-overlay polygon {
+    fill: none;
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+}
+/* White names with a soft dark edge, so they read over cells of any colour. */
+.region-label {
+    font-family: inherit;
+    font-weight: 600;
+    fill: #ffffff;
+    text-anchor: middle;
+    dominant-baseline: central;
+    paint-order: stroke;
+    stroke: rgba(0, 0, 0, 0.7);
+    stroke-width: 40px;
+    stroke-linejoin: round;
+}
 img.layer { object-fit: contain; }
 
 .layer.message {
