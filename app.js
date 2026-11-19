@@ -45,8 +45,9 @@ let latestRequest = 0;
 
 function pictureUrl(entry, run) {
     if (!entry.hasPicture[run.id]) return null;
-    // the pictures are in a public bucket, a run's pictures under the run's id
-    return `${DATA.pictureBase}/${run.id}/${entry.file}`;
+    // the pictures are in a public bucket, a run's pictures under the run's id;
+    // a run with a base of its own has them there instead (local_images/)
+    return `${run.base || DATA.pictureBase}/${run.id}/${entry.file}`;
 }
 
 function fadeDurationMs() {

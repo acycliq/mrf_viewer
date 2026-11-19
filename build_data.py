@@ -31,14 +31,17 @@ PICTURE_BASE = 'https://storage.googleapis.com/mrf_viewer'
 # the pciSeq runs and their pictures, one folder per data set
 PCISEQ_RUNS = '/run/media/dimitris/Sabrent4TB/users/Izzie/pciseq_runs'
 DATASETS = ['aang', 'katara', 'sokka', 'toph']
-# MapMyCells per data set: where its cellData.tsv is, and the folder with one
-# folder of pictures per cell filter ('all' for no filter, then 'n1', 'corr0', ...).
-# A data set that is not in here has no MapMyCells on the page. Empty for now:
-# the old aang pictures were made from a run that still had Kcnd3 in, the new
-# ones are not exported yet. Fill it in as they come, e.g.
-#   'aang': {'cellData': '.../cellData.tsv', 'pictures': '.../mapmycells_pictures'}
-# and put the pictures in the bucket under <dataset>/mapmycells/.
-MAPMYCELLS = {}
+# MapMyCells, redone 19 Nov 2026 for the four data sets (aang_mapmycells/map_dataset.py),
+# mapped from the pciSeq run Inefficiency 0.1, mrf_beta 0.0, on the 38 classes, once with
+# Allen's marker list and once with every panel gene as a marker. Per data set and marker
+# list the cellData.tsv is in MAPMYCELLS/<dataset>/<markers>/ and the pictures in
+# MAPMYCELLS/<dataset>/class_pictures/<markers>/<filter>/, one folder per cell filter
+# ('all' for no filter, then 'n1', 'corr0', ...). In the bucket they go under
+# <dataset>/mapmycells/<markers>/<filter>/:
+#     gcloud storage rsync -r <dataset>/class_pictures gs://mrf_viewer/<dataset>/mapmycells
+MAPMYCELLS = '/run/media/dimitris/Sabrent4TB/users/Izzie/MapMyCells'
+MARKERS = ['allen', 'panel']
+MARKER_NAMES = {'allen': 'Allen', 'panel': 'panel'}
 
 
 def pciseq_folder(inefficiency, beta):
@@ -56,7 +59,7 @@ def pciseq_folder(inefficiency, beta):
 # only cells whose Corr in MapMyCells' cellData is above X (0 drops exactly the
 # tool's default calls, 0.4 is the cut Allen's notebooks use), n<N> = only cells
 # with at least N reads.
-CONTROLS = ['Dataset', 'Method', 'Inefficiency', 'mrf_beta', 'Filter']
+CONTROLS = ['Dataset', 'Method', 'Inefficiency', 'mrf_beta', 'Markers', 'Filter']
 INEFFICIENCIES = ['0.1', '0.5']
 MRF_BETAS = ['0.0', '0.5', '1.0', '1.5']
 # Drawn as a slider instead of radio buttons: a whole control (mrf_beta) or one group of the
@@ -105,27 +108,26 @@ def pciseq_run(dataset, inefficiency, beta):
             'pick': 'most_likely'}
 
 
-def mapmycells_run(dataset, cell_filter):
-    """MapMyCells with Allen's marker list. The runs with every panel gene as a marker
-    (aang_mapmycells/make_panel_markers.py) were on the page until 12 Nov 2026 and were
-    taken off to keep it simple."""
+def mapmycells_run(dataset, markers, cell_filter):
+    """MapMyCells with one marker list (MARKERS) and one cell filter."""
     folder = cell_filter or 'all'
     value = CELL_FILTERS[cell_filter]['value']
-    return {'id': f'{dataset}/mapmycells/{folder}', 'dataset': dataset,
-            'label': f'{dataset}, MapMyCells' + ('' if cell_filter is None else ', ' + value),
-            'choices': {'Dataset': dataset, 'Method': 'MapMyCells', 'Filter': value},
-            'cellData': MAPMYCELLS[dataset]['cellData'],
-            'pictures': os.path.join(MAPMYCELLS[dataset]['pictures'], folder),
+    return {'id': f'{dataset}/mapmycells/{markers}/{folder}', 'dataset': dataset,
+            'label': f'{dataset}, MapMyCells, {MARKER_NAMES[markers]} markers' +
+                     ('' if cell_filter is None else ', ' + value),
+            'choices': {'Dataset': dataset, 'Method': 'MapMyCells', 'Markers': MARKER_NAMES[markers],
+                        'Filter': value},
+            'cellData': os.path.join(MAPMYCELLS, dataset, markers, 'cellData.tsv'),
+            'pictures': os.path.join(MAPMYCELLS, dataset, 'class_pictures', markers, folder),
             'pick': 'first', 'cell_filter': cell_filter}
 
 
-# Per data set: the pciSeq runs, then MapMyCells where there is one. The first
-# run of a data set keeps every cell; the filtered runs are counted against it.
+# Per data set: the pciSeq runs, then MapMyCells. The first run of a data set
+# keeps every cell; the filtered runs are counted against it.
 RUNS = []
 for dataset in DATASETS:
     RUNS += [pciseq_run(dataset, inefficiency, beta) for inefficiency in INEFFICIENCIES for beta in MRF_BETAS]
-    if dataset in MAPMYCELLS:
-        RUNS += [mapmycells_run(dataset, cell_filter) for cell_filter in CELL_FILTERS]
+    RUNS += [mapmycells_run(dataset, markers, cell_filter) for markers in MARKERS for cell_filter in CELL_FILTERS]
 RUN_IDS = [run['id'] for run in RUNS]
 
 
@@ -300,7 +302,9 @@ def main():
         'controls': CONTROLS,
         'buttons': {'Filter': filter_buttons()},
         'sliders': SLIDERS,
-        'runs': [{'id': run['id'], 'label': run['label'], 'choices': run['choices']} for run in RUNS],
+        # base only for the runs whose pictures are not in the bucket
+        'runs': [{'id': run['id'], 'label': run['label'], 'choices': run['choices'],
+                  **({'base': run['base']} if run.get('base') else {})} for run in RUNS],
         'pictureSize': {'width': picture_width, 'height': picture_height},
         'allClassesFile': ALL_CLASSES_FILE,
         'totalCells': {run_id: sum(counts[run_id].values()) for run_id in RUN_IDS},

@@ -6,7 +6,8 @@
 <title>Run comparison</title>
 <!--
   A small viewer for comparing cell typing runs on the same cells: pciSeq at
-  two Inefficiency and four mrf_beta values, and MapMyCells, for four data sets.
+  two Inefficiency and four mrf_beta values, and MapMyCells with two marker lists,
+  for four data sets.
 
   It shows one picture at a time: the cells of one class (or of all classes),
   from all planes, for the run picked with the radio buttons at the top right. The pictures were
@@ -21,7 +22,7 @@
     drawer.js       opening and hiding the drawer, and resizing the class list
     app.js          the class list, the run picker and the fade between pictures
     build_data.py   rebuilds data.js from the pictures and the runs
-    images/         the pictures of the page before 19 Nov 2026, not used any more
+    local_images/   pictures shown only on this pc, left out of git (the old aang MapMyCells run)
 
   The scripts are plain scripts, not modules, because a browser refuses to load
   modules from a page opened straight from the disk. They are loaded in the
